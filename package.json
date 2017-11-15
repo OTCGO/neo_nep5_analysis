@@ -1,5 +1,5 @@
 {
-  "name": "typescript-express-rest",
+  "name": "neo_wallet_analysis",
   "version": "1.0.0",
   "main": "./src/app.ts",
   "license": "MIT",
@@ -8,6 +8,11 @@
     "build": "tsc",
     "tslint": "jake lint"
   },
+  "keywords": [
+    "NEO",
+    "RPX",
+    "NEP5"
+  ],
   "config": {
     "pre-git": {
       "commit-msg": "",

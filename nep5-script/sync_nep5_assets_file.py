@@ -48,7 +48,7 @@ class FileEventHandler(FileSystemEventHandler):
                     item['blockIndex'] = blockIndex
                     if item['state']['value'][0]['value'] == transfer:
                         nep5.transfer(item)
-            print data
+            # print data
 
     def on_deleted(self, event):
         if event.is_directory:
@@ -79,7 +79,7 @@ class JSONFileHandler(object):
 
 class NEP5Handler(object):
     def __init__(self):
-        print args.db
+        # print args.db
         self.client = pymongo.MongoClient('mongodb://' + args.mongodb + '/')
         self.db = self.client[args.db]
         self.collection = self.db.nep5
@@ -88,7 +88,7 @@ class NEP5Handler(object):
     def transfer(self, obj):
         # print obj['state']['value'][0]['value']
         result = self.collection.find_one({"txid": obj['txid']})
-        print result
+        # print result
         if result is None:
             self.collection.insert_one({
                 "blockIndex": obj['blockIndex'],
@@ -118,6 +118,9 @@ def get_block_index(filename):
 
 
 # python sync_nep5_assets_file.py -d neo-otc -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
+
+# python sync_nep5_assets_file.py -d neo-otc -r /home/wei/Desktop/neo-work/neo-cli/Notifications -m 127.0.0.1:27017
+
 
 if __name__ == "__main__":
 

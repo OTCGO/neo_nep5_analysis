@@ -77,32 +77,47 @@ class JSONFileHandler(object):
             return data
 
 
-class NEP5Handler(object):
-    def __init__(self):
-        # print args
-        self.client = pymongo.MongoClient('mongodb://' + args.mongodb + '/')
-        self.db = self.client[args.db]
-        self.collection = self.db.nep5
-        self.wallet = Wallet()
-
-    def transfer(self, obj):
+def transfer(self, obj):
         # print obj['state']['value'][0]['value']
-        result = self.collection.find_one({"txid": obj['txid']})
-        # print result
-        if result is None:
-            self.collection.insert_one({
-                "blockIndex": obj['blockIndex'],
-                "txid": obj['txid'],
+    result = self.db['nep5_m_transactions'].find_one({"txid": obj['txid']})
+    # print result
+    if result is None:
+        self.db['nep5_m_transactions'].insert_one({
+            "blockIndex": obj['blockIndex'],
+            "txid": obj['txid'],
+            "contract": obj['contract'],
+            "operation": binascii.unhexlify(obj['state']['value'][0]['value']),
+            # 转出
+            "from": self.wallet.toAddress(obj['state']['value'][1]['value']),
+            # 输入
+            "to": self.wallet.toAddress(obj['state']['value'][2]['value']),
+            "value": Fixed8.getNumStr(obj['state']['value'][3]['value']),
+            'createAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
+        })
+        # from address
+        address_form = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
+            obj['state']['value'][1]['value'])})
+
+        if address_form is None:
+            self.db['nep5_m_addresses'].insert_one({
+                "address": self.wallet.toAddress(obj['state']['value'][1]['value']),
                 "contract": obj['contract'],
-                "operation": binascii.unhexlify(obj['state']['value'][0]['value']),
-                # 转出
-                "from": self.wallet.toAddress(obj['state']['value'][1]['value']),
-                # 输入
-                "to": self.wallet.toAddress(obj['state']['value'][2]['value']),
-                "value": Fixed8.getNumStr(obj['state']['value'][3]['value'])
+                'createAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
             })
-        else:
-            print 'txid', obj['txid'], 'exist'
+
+        # to
+        address_to = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
+            obj['state']['value'][2]['value'])})
+
+        if address_to is None:
+            self.db['nep5_m_addresses'].insert_one({
+                "address": self.wallet.toAddress(obj['state']['value'][2]['value']),
+                "contract": obj['contract'],
+                'createAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
+            })
+
+    else:
+        print 'txid', obj['txid'], 'exist'
 
 
 class FileHandle(object):

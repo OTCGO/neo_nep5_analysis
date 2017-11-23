@@ -75,7 +75,7 @@
         // Config different from tslint:latest
         "no-implicit-dependencies": [true, "dev"],
         "object-literal-key-quotes": [true, "consistent-as-needed"],
-        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore","allow-pascal-case"],
 
         // TODO
         "arrow-parens": false, // [true, "ban-single-arg-parens"]

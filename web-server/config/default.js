@@ -4,6 +4,13 @@ module.exports = {
     port: '8001', // port
     apiPrefix: '/api/v1' // api 前缀
   },
+  db: {
+    url: 'mongodb://127.0.0.1/neo-otc',
+    options: {
+      useMongoClient: true
+    },
+    debug: true
+  },
   log: {
     appenders: [ // 日志
       {
@@ -22,6 +29,17 @@ module.exports = {
       },
       {
         type: 'file',
+        filename: 'logs/db.log',
+        maxLogSize: 52428800,
+        backups: 2,
+        category: 'db',
+        layout: {
+          type: 'json',
+          separator: ','
+        }
+      },
+      {
+        type: 'file',
         filename: 'logs/init.log',
         maxLogSize: 20480,
         backups: 1,
@@ -33,10 +51,10 @@ module.exports = {
       },
       {
         type: 'file',
-        filename: 'logs/rpx.log',
+        filename: 'logs/nep5.log',
         maxLogSize: 52428800,
         backups: 2,
-        category: 'rpx',
+        category: 'nep5',
         layout: {
           type: 'json',
           separator: ','

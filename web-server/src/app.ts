@@ -13,7 +13,7 @@ import * as express from 'express'
 import * as methodOverride from 'method-override'
 import * as config from 'config'
 import * as log4js from 'log4js'
- import { RPX } from './boot'
+// import { RPX } from './boot'
 import router from './router'
 import { APIOutputMiddleware } from './middlewares'
 
@@ -50,11 +50,9 @@ app.use('*', function(req, res) {
 })
 
 if (!module.parent) {
-  logger.info(`node:env`, process.env.NODE_ENV)
   logger.info(`config,${JSON.stringify(config)}`)
   app.listen(config.get('app.port') || 4000, config.get('app.host') || '127.0.0.1', () => {
     logger.info(`服务器启动，${config.get('app.host')}:${config.get('app.port')}`)
-    RPX()
   })
 }
 

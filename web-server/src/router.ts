@@ -7,8 +7,10 @@
  * Copyright (c) 2017 Your Company
  */
 
-import { Router } from "express"
+import { Router } from 'express'
+import { nep5 } from './modules/'
 
 const router: Router = Router()
 
+router.use('/nep5', nep5)
 export default router

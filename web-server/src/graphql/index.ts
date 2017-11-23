@@ -6,3 +6,7 @@
  *
  * Copyright (c) 2017 Your Company
  */
+
+import schema from './schema'
+
+export default schema

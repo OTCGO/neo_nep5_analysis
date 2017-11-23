@@ -13,6 +13,7 @@ from AntShares.Fixed8 import Fixed8
 import os.path
 import json
 import binascii
+import argparse
 
 
 class FileEventHandler(FileSystemEventHandler):
@@ -78,16 +79,17 @@ class JSONFileHandler(object):
 
 class NEP5Handler(object):
     def __init__(self):
-        self.client = pymongo.MongoClient("192.168.31.9", 27017)
-        self.db = self.client['neo-otcgo']
+        print args.db
+        self.client = pymongo.MongoClient('mongodb://' + args.mongodb + '/')
+        self.db = self.client[args.db]
         self.collection = self.db.nep5
         self.wallet = Wallet()
 
     def transfer(self, obj):
         # print obj['state']['value'][0]['value']
         result = self.collection.find_one({"txid": obj['txid']})
-        # print result
-        if result is not None:
+        print result
+        if result is None:
             self.collection.insert_one({
                 "blockIndex": obj['blockIndex'],
                 "txid": obj['txid'],
@@ -112,16 +114,27 @@ class FileHandle(object):
 
 def get_block_index(filename):
     blockIndex = re.split(r'-', filename)
-    return os.path.splitext(blockIndex[1])[0]
+    return os.path.splitext(blockIndex[1])
 
+
+# python sync_nep5_assets_file.py -d neo-otc -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
 
 if __name__ == "__main__":
 
     try:
         # 定义操作
         transfer = '7472616e73666572'
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-d", "--db", default='neo-otc',
+                            help="verify database name, default antshares")
+        parser.add_argument("-r", "--rootdir", default='/Notifications',
+                            help="neo cli notifications finder")
+        parser.add_argument("-m", "--mongodb", default='127.0.0.1:27017',
+                            help="mongodb for store data,default 127.0.0.1:27017")
+        args = parser.parse_args()
 
-        rootdir = '/Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test'
+        print args
+        rootdir = args.rootdir
         listArr = FileHandle.fileList(rootdir)
 
         print 'file count', len(listArr)
@@ -129,7 +142,10 @@ if __name__ == "__main__":
         nep5 = NEP5Handler()
         for f in range(0, len(listArr)):
             # print os.path.join(rootdir, listArr[f])
-            blockIndex = get_block_index(listArr[f])
+            blockIndex, file_extension = get_block_index(listArr[f])
+            if file_extension != '.json':
+                continue
+
             print 'blockIndex', blockIndex
             data = JSONFileHandler.load(os.path.join(rootdir, listArr[f]))
             if data is not None:
@@ -140,23 +156,7 @@ if __name__ == "__main__":
                     if item['state']['value'][0]['value'] == transfer:
                         nep5.transfer(item)
 
-        # print 'success'
-
-        # 监控文件夹
-        observer = Observer()
-        event_handler = FileEventHandler()
-        observer.schedule(event_handler, rootdir, True)
-        observer.start()
-        try:
-            while True:
-                time.sleep(1)
-        except KeyboardInterrupt:
-            observer.stop()
-        observer.join()
-
-        # data = JSONFileHandler.load('./test/block-1610072.json')
-        # for item in data:
-        #     print item['txid']
+        print 'success'
 
     except Exception as e:
         print e

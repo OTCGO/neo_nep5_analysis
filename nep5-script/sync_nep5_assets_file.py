@@ -7,7 +7,7 @@
 from watchdog.observers import Observer
 from watchdog.events import *
 import time
-import pymongo
+
 from AntShares.Wallets.Wallet import Wallet
 from AntShares.Fixed8 import Fixed8
 import os.path
@@ -15,6 +15,7 @@ import json
 import binascii
 import argparse
 from time import strftime, gmtime
+from NEP5Handler import NEP5Handler
 
 
 class FileEventHandler(FileSystemEventHandler):
@@ -33,23 +34,11 @@ class FileEventHandler(FileSystemEventHandler):
         if event.is_directory:
             print("directory created:{0}".format(event.src_path))
         else:
-            # print("file created:{0}".format(event.src_path))
+            print("file created:{0}".format(event.src_path))
             # print os.path.basename(event.src_path)
 
             # data = JSONFileHandler.load(os.path.join(
             #     rootdir, os.path.basename(event.src_path)))
-            blockIndex = get_block_index(os.path.basename(event.src_path))
-            print 'blockIndex', blockIndex
-            data = JSONFileHandler.load(event.src_path)
-            nep5 = NEP5Handler()
-            if data is not None:
-                for item in data:
-                    # print type(item)
-                    # print item['txid']
-                    item['blockIndex'] = blockIndex
-                    if item['state']['value'][0]['value'] == transfer:
-                        nep5.transfer(item)
-            # print data
 
     def on_deleted(self, event):
         if event.is_directory:
@@ -76,60 +65,6 @@ class JSONFileHandler(object):
         with open(path) as json_file:
             data = json.load(json_file)
             return data
-
-
-class NEP5Handler(object):
-    def __init__(self):
-        # print args.db
-        self.client = pymongo.MongoClient('mongodb://' + args.mongodb + '/')
-        self.db = self.client[args.db]
-        # self.collection = self.db.nep5
-        self.wallet = Wallet()
-
-    def transfer(self, obj):
-            # print obj['state']['value'][0]['value']
-        result = self.db['nep5_m_transactions'].find_one({"txid": obj['txid']})
-        # print result
-        if result is None:
-            self.db['nep5_m_transactions'].insert_one({
-                "blockIndex": obj['blockIndex'],
-                "txid": obj['txid'],
-                "contract": obj['contract'],
-                "operation": binascii.unhexlify(obj['state']['value'][0]['value']),
-                # 转出
-                "from": self.wallet.toAddress(obj['state']['value'][1]['value']),
-                # 输入
-                "to": self.wallet.toAddress(obj['state']['value'][2]['value']),
-                "value": Fixed8.getNumStr(obj['state']['value'][3]['value']),
-                'createdAt': strftime("%Y-%m-%d %H:%M:%S", gmtime()),
-                'updatedAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
-            })
-            # from address
-            address_form = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
-                obj['state']['value'][1]['value'])})
-
-            if address_form is None:
-                self.db['nep5_m_addresses'].insert_one({
-                    "address": self.wallet.toAddress(obj['state']['value'][1]['value']),
-                    "contract": obj['contract'],
-                    'createdAt': strftime("%Y-%m-%d %H:%M:%S", gmtime()),
-                    'updatedAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
-                })
-
-            # to
-            address_to = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
-                obj['state']['value'][2]['value'])})
-
-            if address_to is None:
-                self.db['nep5_m_addresses'].insert_one({
-                    "address": self.wallet.toAddress(obj['state']['value'][2]['value']),
-                    "contract": obj['contract'],
-                    'createdAt': strftime("%Y-%m-%d %H:%M:%S", gmtime()),
-                    'updatedAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
-                })
-
-        else:
-            print 'txid', obj['txid'], 'exist'
 
 
 class FileHandle(object):
@@ -169,7 +104,7 @@ if __name__ == "__main__":
 
         print 'file count', len(listArr)
         # 循环文件夹
-        nep5 = NEP5Handler()
+        nep5 = NEP5Handler(args)
         for f in range(0, len(listArr)):
             # print os.path.join(rootdir, listArr[f])
             blockIndex, file_extension = get_block_index(listArr[f])

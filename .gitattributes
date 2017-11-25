@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 web-server/config/production.json filter=git-crypt diff=git-crypt
+=======
+web-server/config/production.js filter=git-crypt diff=git-crypt
+>>>>>>> 4665e8bc679ccedf4f5187794c610b7007025634

@@ -1,1 +1,1 @@
-web-server/config/production.json filter=git-crypt diff=git-crypt
+web-server/config/production.js filter=git-crypt diff=git-crypt

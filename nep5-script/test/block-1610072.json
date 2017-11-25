@@ -1,0 +1,20 @@
+[{
+    "txid": "0x54e9364599c92d3915070414385ac8b1210c8f58faf6db7399acb47857951175",
+    "contract": "0xecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
+    "state": {
+        "type": "Array",
+        "value": [{
+            "type": "ByteArray",
+            "value": "7472616e73666572"
+        }, {
+            "type": "ByteArray",
+            "value": "89b82241f7d214516a4b517b5c6792d5ec867e1d"
+        }, {
+            "type": "ByteArray",
+            "value": "03e5bf5e49fbd3b2bdafe712869ff6d01af5361f"
+        }, {
+            "type": "ByteArray",
+            "value": "00e40b5402"
+        }]
+    }
+}]

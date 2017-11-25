@@ -5,8 +5,8 @@ module.exports = {
      */
   apps: [
     {
-      name: 'user-mgt-0',
-      script: './bin/www',
+      name: 'neo-nep5',
+      script: './dist/app.js',
       env: {   // all environment
         'NODE_ENV': 'production'
       },

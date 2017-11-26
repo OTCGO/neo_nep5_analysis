@@ -27,7 +27,7 @@ const transaction = new graphql.GraphQLObjectType({
       type: graphql.GraphQLString
     },
     value: {
-      type: graphql.GraphQLInt
+      type: graphql.GraphQLString
     },
     blockIndex: {
       type: graphql.GraphQLString

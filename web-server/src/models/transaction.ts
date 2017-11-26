@@ -1,9 +1,16 @@
 import { mongoose } from '../lib'
 import * as timestamps from 'mongoose-timestamp'
 
+
+
 const baseSchema = {
-    contract: String,  // contract
-    address: String,  // 转入地址
+  txid: String,  // txid
+  to: String,  // 转入地址
+  from: String, // 输出地址
+  value: String, // 金额
+  blockIndex: String, // 区块
+  operation: String, // 操作,
+  contract: String,  // contract
 }
 
 const transaction = new mongoose.Schema(baseSchema, {

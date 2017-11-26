@@ -17,22 +17,10 @@ const address = new graphql.GraphQLObjectType({
     _id: {
       type: graphql.GraphQLString
     },
-    txid: {
+    contract: {
       type: graphql.GraphQLString
     },
-    to: {
-      type: graphql.GraphQLString
-    },
-    from: {
-      type: graphql.GraphQLString
-    },
-    value: {
-      type: graphql.GraphQLInt
-    },
-    blockIndex: {
-      type: graphql.GraphQLString
-    },
-    operation: {
+    address: {
       type: graphql.GraphQLString
     },
     createdAt: {

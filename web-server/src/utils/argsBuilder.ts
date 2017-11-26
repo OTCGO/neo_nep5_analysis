@@ -5,11 +5,13 @@ const  argsBuilder = (args) => {
     _id: {
       type: graphql.GraphQLString
     },
-    limit: {
-      type: graphql.GraphQLInt
+    skip: {
+      type: graphql.GraphQLInt,
+      defaultValue: 0
     },
-    offset: {
-      type: graphql.GraphQLInt
+    limit: {
+      type: graphql.GraphQLInt,
+      defaultValue: 20
     },
     sort: {
       type: graphql.GraphQLString

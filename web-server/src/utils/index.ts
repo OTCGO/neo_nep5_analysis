@@ -9,3 +9,4 @@
 export * from './request'
 export * from './argsBuilder'
 export * from './queryBuilder'
+export * from './pageQuery'

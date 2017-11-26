@@ -1,7 +1,17 @@
+/**
+ * Filename: /Users/wei/Desktop/otcgo/neo_wallet_analysis/web-server/src/graphql/query.ts
+ * Path: /Users/wei/Desktop/otcgo/neo_wallet_analysis/web-server
+ * Created Date: Thursday, November 23rd 2017, 4:25:17 pm
+ * Author: qknow
+ *
+ * Copyright (c) 2017 otcgo.cn
+ */
+
 import * as graphql from 'graphql'
 import { address, transaction } from './models'
 import { Address, Transaction } from '../models'
-import { queryBuilder, argsBuilder } from '../utils'
+import { queryBuilder, argsBuilder, pageQuery } from '../utils'
+import { print } from 'util'
 
 
 const query = new graphql.GraphQLObjectType({
@@ -26,14 +36,7 @@ const query = new graphql.GraphQLObjectType({
         }
       }),
       async resolve (root, args) {
-        const query = Address.find()
-        queryBuilder(query, args)
-        const rows = await query.lean().exec()
-        const count = await query.count().exec()
-        return {
-          count,
-          rows
-        }
+        return  pageQuery(args.skip, args.limit, Address, '', queryBuilder({}, args))
       }
     },
     TransactionQuery: {
@@ -54,14 +57,7 @@ const query = new graphql.GraphQLObjectType({
         }
       }),
       async resolve (root, args) {
-        const query = Transaction.find()
-        queryBuilder(query, args)
-        const rows = await query.lean().exec()
-        const count = await query.count().exec()
-        return {
-          count,
-          rows
-        }
+        return  pageQuery(args.skip, args.limit, Transaction, '', queryBuilder({}, args))
       }
     }
   }

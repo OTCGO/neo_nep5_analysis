@@ -35,6 +35,9 @@ const transaction = new graphql.GraphQLObjectType({
     operation: {
       type: graphql.GraphQLString
     },
+    contract: {
+      type: graphql.GraphQLString
+    },
     createdAt: {
       type: graphql.GraphQLString
     },

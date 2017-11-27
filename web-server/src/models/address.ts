@@ -8,7 +8,7 @@ const baseSchema = {
 }
 
 const address = new mongoose.Schema(baseSchema, {
-  collection: 'nep5_m_transactions',
+  collection: 'nep5_m_addresses',
   strict: false
 })
 

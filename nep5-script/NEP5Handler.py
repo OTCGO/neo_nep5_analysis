@@ -6,8 +6,9 @@
 import pymongo
 from AntShares.Wallets.Wallet import Wallet
 import binascii
-from time import strftime, gmtime
+import datetime
 from AntShares.Fixed8 import Fixed8
+import requests
 
 
 class NEP5Handler(object):
@@ -20,49 +21,104 @@ class NEP5Handler(object):
 
     def transfer(self, obj):
             # print obj['state']['value'][0]['value']
-        result = self.db['nep5_m_transactions'].find_one({
-            "txid": obj['txid'],
-            "from": self.wallet.toAddress(obj['state']['value'][1]['value']),
-            "to": self.wallet.toAddress(obj['state']['value'][2]['value'])
-        })
-        # print result
-        if result is None:
-            self.db['nep5_m_transactions'].insert_one({
-                "blockIndex": obj['blockIndex'],
-                "txid": obj['txid'],
+        # url = 'http://127.0.0.1:10332'
+        try:
+            url = 'http://seed2.neo.org:10332'
+
+            asserts = self.db['nep5_m_asserts'].find_one({
                 "contract": obj['contract'],
-                "operation": binascii.unhexlify(obj['state']['value'][0]['value']),
-                # 转出
-                "from": self.wallet.toAddress(obj['state']['value'][1]['value']),
-                # 输入
-                "to": self.wallet.toAddress(obj['state']['value'][2]['value']),
-                "value": Fixed8.getNumStr(obj['state']['value'][3]['value']),
-                'createdAt': strftime("%Y-%m-%d %H:%M:%S", gmtime()),
-                'updatedAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
             })
-            # from address
-            address_form = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
-                obj['state']['value'][1]['value'])})
 
-            if address_form is None:
-                self.db['nep5_m_addresses'].insert_one({
-                    "address": self.wallet.toAddress(obj['state']['value'][1]['value']),
-                    "contract": obj['contract'],
-                    'createdAt': strftime("%Y-%m-%d %H:%M:%S", gmtime()),
-                    'updatedAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
+            print 'asserts', asserts
+            # asserts
+            if asserts is None:
+                # rpc get symbol
+                # print 'contract', type(obj['contract'])
+                r = requests.post(url, json={
+                    "jsonrpc": "2.0",
+                    "method": "invokefunction",
+                    "params": [
+                        obj['contract'],
+                        "symbol",
+                        []
+                    ],
+                    "id": 1
                 })
 
-            # to
-            address_to = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
-                obj['state']['value'][2]['value'])})
-
-            if address_to is None:
-                self.db['nep5_m_addresses'].insert_one({
-                    "address": self.wallet.toAddress(obj['state']['value'][2]['value']),
+                # print 'value', binascii.unhexlify(r.json()['result']['stack'][0]['value'])
+                self.db['nep5_m_asserts'].insert_one({
                     "contract": obj['contract'],
-                    'createdAt': strftime("%Y-%m-%d %H:%M:%S", gmtime()),
-                    'updatedAt': strftime("%Y-%m-%d %H:%M:%S", gmtime())
+                    "symbol": binascii.unhexlify(r.json()['result']['stack'][0]['value']),
+                    'createdAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 })
 
-        else:
-            print 'txid', obj['txid'], 'exist'
+            result = self.db['nep5_m_transactions'].find_one({
+                "txid": obj['txid'],
+                "from": {
+                    "value": self.wallet.toAddress(obj['state']['value'][1]['value']),
+                    "hash": obj['state']['value'][1]['value']
+                },
+                "to": {
+                    "value": self.wallet.toAddress(
+                        obj['state']['value'][2]['value']),
+                    "hash": obj['state']['value'][2]['value']
+                }
+            })
+
+            print 'nep5_m_transactions', result
+            if result is None:
+                self.db['nep5_m_transactions'].insert_one({
+                    "blockIndex": obj['blockIndex'],
+                    "txid": obj['txid'],
+                    "contract": obj['contract'],
+                    "operation": binascii.unhexlify(obj['state']['value'][0]['value']),
+                    # 转出
+                    "from": {
+                        "value": self.wallet.toAddress(obj['state']['value'][1]['value']),
+                        "hash": obj['state']['value'][1]['value'],
+                    },
+                    # 输入
+                    "to": {
+                        "value": self.wallet.toAddress(
+                            obj['state']['value'][2]['value']),
+                        "hash": obj['state']['value'][2]['value'],
+                    },
+                    "value": Fixed8.getNumStr(obj['state']['value'][3]['value']),
+                    'createdAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                })
+                # from address
+                address_form = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
+                    obj['state']['value'][1]['value'])})
+
+                if address_form is None:
+                    self.db['nep5_m_addresses'].insert_one({
+                        "address":  {
+                            "valuse": self.wallet.toAddress(obj['state']['value'][1]['value']),
+                            "hash": obj['state']['value'][1]['value']
+                        },
+                        "contract": obj['contract'],
+                        'createdAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    })
+
+                # to
+                address_to = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
+                    obj['state']['value'][2]['value'])})
+
+                if address_to is None:
+                    self.db['nep5_m_addresses'].insert_one({
+                        "address": {
+                            "valuse": self.wallet.toAddress(obj['state']['value'][2]['value']),
+                            "hash": obj['state']['value'][2]['value']
+                        },
+                        "contract": obj['contract'],
+                        'createdAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    })
+
+            else:
+                print 'txid', obj['txid'], 'exist'
+        except Exception as e:
+            print e

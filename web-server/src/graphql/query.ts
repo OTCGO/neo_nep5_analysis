@@ -39,6 +39,13 @@ const query = new graphql.GraphQLObjectType({
         }
       }),
       async resolve (root, args) {
+        if (args.address) {
+          args.$or = [
+            {'address.value': args.address},
+            {'address.hash': args.address},
+          ]
+          delete args.address
+        }
         return  pageQuery(args.skip, args.limit, Address, '', queryBuilder({}, args))
       }
     },

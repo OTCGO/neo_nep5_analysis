@@ -5,7 +5,7 @@ import * as timestamps from 'mongoose-timestamp'
 const baseSchema = {
   contract: String,  // contract
   address: {
-    value: String,  // 转入地址
+    value: String,
     hash: String
   }
 }

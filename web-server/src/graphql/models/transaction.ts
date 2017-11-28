@@ -21,10 +21,30 @@ const transaction = new graphql.GraphQLObjectType({
       type: graphql.GraphQLString
     },
     to: {
-      type: graphql.GraphQLString
+     type: new graphql.GraphQLObjectType({
+       name: 'toAddress',
+       fields: {
+          value: {
+            type: graphql.GraphQLString
+          },
+          hash: {
+            type: graphql.GraphQLString
+          }
+       }
+     })
     },
     from: {
-      type: graphql.GraphQLString
+      type: new graphql.GraphQLObjectType({
+        name: 'fromAddress',
+        fields: {
+           value: {
+             type: graphql.GraphQLString
+           },
+           hash: {
+             type: graphql.GraphQLString
+           }
+        }
+      })
     },
     value: {
       type: graphql.GraphQLString

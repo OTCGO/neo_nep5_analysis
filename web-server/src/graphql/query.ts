@@ -33,6 +33,9 @@ const query = new graphql.GraphQLObjectType({
       args: argsBuilder({
         _id: {
           type: graphql.GraphQLString
+        },
+        address: {
+          type: graphql.GraphQLString
         }
       }),
       async resolve (root, args) {
@@ -54,9 +57,13 @@ const query = new graphql.GraphQLObjectType({
       args: argsBuilder({
         _id: {
           type: graphql.GraphQLString
+        },
+        txid: {
+          type: graphql.GraphQLString
         }
       }),
       async resolve (root, args) {
+        console.log(queryBuilder({}, args))
         return  pageQuery(args.skip, args.limit, Transaction, '', queryBuilder({}, args))
       }
     }

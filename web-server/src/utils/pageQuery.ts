@@ -12,6 +12,7 @@ import async from 'async'
 import { resolve } from 'url'
 
 const pageQuery = function (skip = 0, limit = 20, Model, populate= {}, queryParams= {}, sortParams = {createdAt: 'desc'}) {
+  console.log('queryParams', queryParams)
   return new Promise((resolve, reject) => {
     const $page = {
       rows: [],
@@ -32,7 +33,6 @@ const pageQuery = function (skip = 0, limit = 20, Model, populate= {}, queryPara
       if (err) return reject(err)
       $page.count = results.count
       $page.rows = results.records
-      console.log('$page', $page)
       return resolve($page)
     })
   })

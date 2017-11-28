@@ -11,7 +11,7 @@
 import * as graphql from 'graphql'
 
 const address = new graphql.GraphQLObjectType({
-  name: 'address',
+  name: 'addresses',
   description: 'This is a address',
   fields: {
     _id: {
@@ -21,7 +21,17 @@ const address = new graphql.GraphQLObjectType({
       type: graphql.GraphQLString
     },
     address: {
-      type: graphql.GraphQLString
+      type: new graphql.GraphQLObjectType({
+        name: 'address',
+        fields: {
+           value: {
+             type: graphql.GraphQLString
+           },
+           hash: {
+             type: graphql.GraphQLString
+           }
+        }
+      })
     },
     createdAt: {
       type: graphql.GraphQLString

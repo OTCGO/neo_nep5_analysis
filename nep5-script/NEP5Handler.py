@@ -96,7 +96,7 @@ class NEP5Handler(object):
                 if address_form is None:
                     self.db['nep5_m_addresses'].insert_one({
                         "address":  {
-                            "valuse": self.wallet.toAddress(obj['state']['value'][1]['value']),
+                            "value": self.wallet.toAddress(obj['state']['value'][1]['value']),
                             "hash": obj['state']['value'][1]['value']
                         },
                         "contract": obj['contract'],
@@ -111,7 +111,7 @@ class NEP5Handler(object):
                 if address_to is None:
                     self.db['nep5_m_addresses'].insert_one({
                         "address": {
-                            "valuse": self.wallet.toAddress(obj['state']['value'][2]['value']),
+                            "value": self.wallet.toAddress(obj['state']['value'][2]['value']),
                             "hash": obj['state']['value'][2]['value']
                         },
                         "contract": obj['contract'],

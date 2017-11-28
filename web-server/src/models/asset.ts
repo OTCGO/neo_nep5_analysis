@@ -8,18 +8,18 @@ const baseSchema = {
   contract: String,  // contract
 }
 
-const transaction = new mongoose.Schema(baseSchema, {
-  collection: 'nep5_m_transactions',
+const asset = new mongoose.Schema(baseSchema, {
+  collection: 'nep5_m_assets',
   strict: false
 })
 
-transaction.plugin(timestamps, {
+asset.plugin(timestamps, {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 })
 
 
-const Asset = mongoose.model('Transaction', transaction)
+const Asset = mongoose.model('Asset', asset)
 
 
 

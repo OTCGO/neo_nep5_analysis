@@ -5,7 +5,7 @@ module.exports = {
     apiPrefix: '/api/v1' // api 前缀
   },
   db: {
-    url: 'mongodb://127.0.0.1/neo-otc',
+    url: 'mongodb://114.215.30.71/neo-otcgo',
     options: {
       useMongoClient: true
     },

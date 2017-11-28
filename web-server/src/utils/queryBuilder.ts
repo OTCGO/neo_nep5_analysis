@@ -1,3 +1,5 @@
+import { object } from 'joi'
+
 /**
  * Filename: /Users/wei/Desktop/otcgo/neo_wallet_analysis/web-server/src/utils/queryBuilder.ts
  * Path: /Users/wei/Desktop/otcgo/neo_wallet_analysis/web-server
@@ -10,7 +12,7 @@
 const queryBuilder = (query, args) => {
     delete args.skip
     delete args.limit
-    return  {...query}
+    return  {...query, ...args}
   }
 
   export { queryBuilder }

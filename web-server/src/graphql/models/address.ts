@@ -37,7 +37,8 @@ const address = new graphql.GraphQLObjectType({
     symbol: {
       type: graphql.GraphQLString,
       async resolve (address) {
-        return Asset.findOne({contract: address.contract}).symbol
+        const asset = await Asset.findOne({contract: address.contract})
+        return asset.symbol
       }
     },
     createdAt: {

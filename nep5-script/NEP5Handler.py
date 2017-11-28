@@ -23,9 +23,10 @@ class NEP5Handler(object):
             # print obj['state']['value'][0]['value']
         # url = 'http://127.0.0.1:10332'
         try:
-            url = 'http://seed2.neo.org:10332'
+            # url = 'http://seed2.neo.org:10332'
+            url = 'http://127.0.0.1:10332'
 
-            asserts = self.db['nep5_m_asserts'].find_one({
+            asserts = self.db['nep5_m_assets'].find_one({
                 "contract": obj['contract'],
             })
 
@@ -46,7 +47,7 @@ class NEP5Handler(object):
                 })
 
                 # print 'value', binascii.unhexlify(r.json()['result']['stack'][0]['value'])
-                self.db['nep5_m_asserts'].insert_one({
+                self.db['nep5_m_assets'].insert_one({
                     "contract": obj['contract'],
                     "symbol": binascii.unhexlify(r.json()['result']['stack'][0]['value']),
                     'createdAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),

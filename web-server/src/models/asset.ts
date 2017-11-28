@@ -4,18 +4,7 @@ import * as timestamps from 'mongoose-timestamp'
 
 
 const baseSchema = {
-  txid: String,  // txid
-  to: {
-    value: String,  // 转入地址
-    hash: String
-  },
-  from: {
-    value: String,  // 转出地址
-    hash: String
-  },
-  value: String, // 金额
-  blockIndex: String, // 区块
-  operation: String, // 操作,
+  symbol: String,  // symbol
   contract: String,  // contract
 }
 
@@ -30,8 +19,8 @@ transaction.plugin(timestamps, {
 })
 
 
-const Transaction = mongoose.model('Transaction', transaction)
+const Asset = mongoose.model('Transaction', transaction)
 
 
 
-export { Transaction }
+export { Asset }

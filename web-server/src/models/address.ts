@@ -4,7 +4,10 @@ import * as timestamps from 'mongoose-timestamp'
 
 const baseSchema = {
   contract: String,  // contract
-  address: String,  // 转入地址
+  address: {
+    value: String,  // 转入地址
+    hash: String
+  }
 }
 
 const address = new mongoose.Schema(baseSchema, {

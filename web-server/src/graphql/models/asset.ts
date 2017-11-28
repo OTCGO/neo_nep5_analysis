@@ -9,11 +9,10 @@
 
 
 import * as graphql from 'graphql'
-import {  Asset } from '../../models'
 
-const address = new graphql.GraphQLObjectType({
-  name: 'addresses',
-  description: 'This is a address',
+const asset = new graphql.GraphQLObjectType({
+  name: 'assets',
+  description: 'This is a assets',
   fields: {
     _id: {
       type: graphql.GraphQLString
@@ -21,24 +20,8 @@ const address = new graphql.GraphQLObjectType({
     contract: {
       type: graphql.GraphQLString
     },
-    address: {
-      type: new graphql.GraphQLObjectType({
-        name: 'address',
-        fields: {
-           value: {
-             type: graphql.GraphQLString
-           },
-           hash: {
-             type: graphql.GraphQLString
-           }
-        }
-      })
-    },
     symbol: {
-      type: graphql.GraphQLString,
-      async resolve (address) {
-        return Asset.findOne({contract: address.contract}).symbol
-      }
+        type: graphql.GraphQLString
     },
     createdAt: {
       type: graphql.GraphQLString
@@ -49,4 +32,4 @@ const address = new graphql.GraphQLObjectType({
   }
 })
 
-export { address }
+export { asset }

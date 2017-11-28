@@ -8,8 +8,8 @@
  */
 
 import * as graphql from 'graphql'
-import { address, transaction } from './models'
-import { Address, Transaction } from '../models'
+import { address, transaction, asset } from './models'
+import { Address, Transaction, Asset } from '../models'
 import { queryBuilder, argsBuilder, pageQuery } from '../utils'
 import { print } from 'util'
 
@@ -70,10 +70,33 @@ const query = new graphql.GraphQLObjectType({
         }
       }),
       async resolve (root, args) {
-        console.log(queryBuilder({}, args))
         return  pageQuery(args.skip, args.limit, Transaction, '', queryBuilder({}, args))
       }
-    }
+    },
+    AssetQuery: {
+      type: new graphql.GraphQLNonNull(new graphql.GraphQLObjectType({
+        name: 'AssetQuery',
+        fields: {
+          count: {
+            type: graphql.GraphQLInt
+          },
+          rows: {
+            type: new graphql.GraphQLList(asset)
+          }
+        }
+      })),
+      args: argsBuilder({
+        _id: {
+          type: graphql.GraphQLString
+        },
+        symbol: {
+          type: graphql.GraphQLString
+        },
+      }),
+      async resolve (root, args) {
+        return  pageQuery(args.skip, args.limit, Asset, '', queryBuilder({}, args))
+      }
+    },
   }
 })
 

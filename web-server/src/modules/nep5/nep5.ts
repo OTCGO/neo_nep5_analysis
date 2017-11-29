@@ -12,7 +12,6 @@ import * as config from 'config'
 import { Router } from 'express'
 import { NRequest } from '../../interface'
 import * as graphqlHTTP from 'express-graphql'
-import * as neon from '@cityofzion/neon-js'
 import { Request as WebHandler } from '../../utils'
 import schema from '../../graphql'
 
@@ -44,31 +43,34 @@ nep5.use(`/public/graphql`, graphqlHTTP({
 }))
 
 
-nep5.get(`/address/balanceOf`,  async (req: NRequest, res: any)  => {
-    try {
-      logger.info(`${config.get('rpc')}`)
-      const result: any = await WebHandler({
-        url: `${config.get('rpc')}`,
-        method: 'post',
-        json: {
-          jsonrpc: '2.0',
-          method: 'invokefunction',
-          params: [
-            'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
-            'balanceOf',
-            [
-              {
-                type: 'Hash160',
-                value: 'bfc469dd56932409677278f6b7422f3e1f34481d'
-              }
-            ]
-          ],
-          id: 3
-        }
+nep5.post(`/address/balanceOf`,  async (req: NRequest, res: any)  => {
+     try {
+    //   logger.info(`${config.get('rpc')}`)
+    //   const result: any = await WebHandler({
+    //     url: `${config.get('rpc')}`,
+    //     method: 'post',
+    //     json: {
+    //       jsonrpc: '2.0',
+    //       method: 'invokefunction',
+    //       params: [
+    //         'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
+    //         'balanceOf',
+    //         [
+    //           {
+    //             type: 'Hash160',
+    //             value: 'bfc469dd56932409677278f6b7422f3e1f34481d'
+    //           }
+    //         ]
+    //       ],
+    //       id: 3
+    //     }
+    //   })
+
+     return res.apiSuccess({
+       address: 'bfc469dd56932409677278f6b7422f3e1f34481d',
+       contract: 'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
+       value: 30
       })
-      console.log('0x' + result.result.stack[0].value.toString(10).toString(10))
-     console.log(neon.u.fixed82num(result.result.stack[0].value))
-     return res.apiSuccess('11')
     } catch (error) {
       logger.error('nep5', error)
       return res.apiError(error)

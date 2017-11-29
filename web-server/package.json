@@ -24,7 +24,6 @@
     }
   },
   "dependencies": {
-    "@cityofzion/neon-js": "^2.1.1",
     "@types/express": "^4.0.39",
     "async": "^2.6.0",
     "bluebird": "^3.5.1",

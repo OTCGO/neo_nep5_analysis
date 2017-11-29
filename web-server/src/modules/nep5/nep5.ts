@@ -13,6 +13,7 @@ import { Router } from 'express'
 import { NRequest } from '../../interface'
 import * as graphqlHTTP from 'express-graphql'
 import { Request as WebHandler } from '../../utils'
+import {  Asset } from '../../models'
 import schema from '../../graphql'
 
 
@@ -45,6 +46,7 @@ nep5.use(`/public/graphql`, graphqlHTTP({
 
 nep5.post(`/address/balanceOf`,  async (req: NRequest, res: any)  => {
      try {
+       const body = req.body
     //   logger.info(`${config.get('rpc')}`)
     //   const result: any = await WebHandler({
     //     url: `${config.get('rpc')}`,
@@ -66,9 +68,12 @@ nep5.post(`/address/balanceOf`,  async (req: NRequest, res: any)  => {
     //     }
     //   })
 
+      const asset = await Asset.findOne({contract: body.contract})
+
      return res.apiSuccess({
        address: 'bfc469dd56932409677278f6b7422f3e1f34481d',
        contract: 'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
+       symbol: asset.symbol,
        value: 30
       })
     } catch (error) {

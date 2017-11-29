@@ -67,9 +67,28 @@ const query = new graphql.GraphQLObjectType({
         },
         txid: {
           type: graphql.GraphQLString
-        }
+        },
+        blockIndex: {
+          type: graphql.GraphQLString
+        },
+        search: {
+          type: graphql.GraphQLString
+        },
       }),
       async resolve (root, args) {
+        if (args.search) {
+          args.$or = [
+            {txid: args.search},
+            {blockIndex: args.search},
+            {contract: args.search},
+            {operation: args.search},
+            {'to.value': args.search},
+            {'to.hash': args.search},
+            {'from.value': args.search},
+            {'from.hash': args.search}
+          ]
+          delete args.search
+        }
         return  pageQuery(args.skip, args.limit, Transaction, '', queryBuilder({}, args))
       }
     },

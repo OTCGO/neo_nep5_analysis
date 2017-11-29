@@ -7,7 +7,7 @@
  * Copyright (c) 2017 Your Company
  */
 
-import * as joi from "joi"
+import * as joi from 'joi'
 
 /**
  * joi 验证中间件

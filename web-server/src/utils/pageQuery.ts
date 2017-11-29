@@ -7,9 +7,17 @@
  * Copyright (c) 2017 otcgo.cn
  */
 
+/**
+ * Filename: /Users/wei/Desktop/otcgo/neo_wallet_analysis/web-server/src/utils/pageQuery.ts
+ * Path: /Users/wei/Desktop/otcgo/neo_wallet_analysis/web-server
+ * Created Date: Sunday, November 26th 2017, 12:14:02 pm
+ * Author: qknow
+ *
+ * Copyright (c) 2017 otcgo.cn
+ */
 
 import async from 'async'
-import { resolve } from 'url'
+
 
 const pageQuery = function (skip = 0, limit = 20, Model, populate= {}, queryParams= {}, sortParams = {createdAt: 'desc'}) {
   console.log('queryParams', queryParams)

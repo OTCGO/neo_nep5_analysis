@@ -11,6 +11,7 @@ module.exports = {
     },
     debug: true
   },
+  rpc: 'http://seed2.neo.org:10332',
   log: {
     appenders: [ // 日志
       {

@@ -48,7 +48,7 @@ class FileEventHandler(FileSystemEventHandler):
                     # print type(item)
                     # print item['txid']
                     item['blockIndex'] = blockIndex
-                    if item['state']['value'][0]['value'] == transfer:
+                    if item['state']['value'][0]['value'] == 'transfer':
                         nep5.transfer(item)
             # print data
 

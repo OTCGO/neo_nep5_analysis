@@ -9,6 +9,7 @@
 
 
 import * as graphql from 'graphql'
+import {  Asset } from '../../models'
 
 const transaction = new graphql.GraphQLObjectType({
   name: 'transaction',
@@ -45,6 +46,13 @@ const transaction = new graphql.GraphQLObjectType({
            }
         }
       })
+    },
+    symbol: {
+      type: graphql.GraphQLString,
+      async resolve (address) {
+        const asset = await Asset.findOne({contract: address.contract})
+        return asset.symbol
+      }
     },
     value: {
       type: graphql.GraphQLString

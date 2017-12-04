@@ -6,6 +6,8 @@ import * as timestamps from 'mongoose-timestamp'
 const baseSchema = {
   symbol: String,  // symbol
   contract: String,  // contract
+  createdAt: String,
+  updatedAt: String
 }
 
 const asset = new mongoose.Schema(baseSchema, {
@@ -13,10 +15,10 @@ const asset = new mongoose.Schema(baseSchema, {
   strict: false
 })
 
-asset.plugin(timestamps, {
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-})
+// asset.plugin(timestamps, {
+//   createdAt: 'createdAt',
+//   updatedAt: 'updatedAt'
+// })
 
 
 const Asset = mongoose.model('Asset', asset)

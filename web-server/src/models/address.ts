@@ -7,7 +7,9 @@ const baseSchema = {
   address: {
     value: String,
     hash: String
-  }
+  },
+  createdAt: String,
+  updatedAt: String
 }
 
 const address = new mongoose.Schema(baseSchema, {
@@ -15,10 +17,10 @@ const address = new mongoose.Schema(baseSchema, {
   strict: false
 })
 
-address.plugin(timestamps, {
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-})
+// address.plugin(timestamps, {
+//   createdAt: 'createdAt',
+//   updatedAt: 'updatedAt'
+// })
 
 const Address = mongoose.model('Address', address)
 

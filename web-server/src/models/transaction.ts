@@ -17,6 +17,8 @@ const baseSchema = {
   blockIndex: String, // 区块
   operation: String, // 操作,
   contract: String,  // contract
+  createdAt: String,
+  updatedAt: String
 }
 
 const transaction = new mongoose.Schema(baseSchema, {
@@ -24,10 +26,10 @@ const transaction = new mongoose.Schema(baseSchema, {
   strict: false
 })
 
-transaction.plugin(timestamps, {
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-})
+// transaction.plugin(timestamps, {
+//   createdAt: 'createdAt',
+//   updatedAt: 'updatedAt'
+// })
 
 
 const Transaction = mongoose.model('Transaction', transaction)

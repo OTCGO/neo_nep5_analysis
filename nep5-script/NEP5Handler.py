@@ -29,7 +29,7 @@ class NEP5Handler(object):
             # transferred
             # not contain mintToken
             print obj['state']['value'][1]['value'] is not ""
-            if obj['state']['value'][1]['value'] is not "" and obj['state']['value'][2]['value'] is not '':
+            if obj['state']['value'][1]['value'] != "" and obj['state']['value'][2]['value'] != '':
                 # print 'tt'
 
                 asserts = self.db['nep5_m_assets'].find_one({

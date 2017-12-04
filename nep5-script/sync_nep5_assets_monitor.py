@@ -16,8 +16,6 @@ import binascii
 import argparse
 from time import strftime, gmtime
 from NEP5Handler import NEP5Handler
-import os
-import sys
 
 
 class FileEventHandler(FileSystemEventHandler):
@@ -124,7 +122,7 @@ def start():
                 time.sleep(1)
         except KeyboardInterrupt:
             time.sleep(1)
-            os.execvp(executable, args)
+            observer.start()
         observer.join()
 
     except Exception as e:

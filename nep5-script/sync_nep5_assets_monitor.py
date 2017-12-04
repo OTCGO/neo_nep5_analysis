@@ -101,7 +101,6 @@ def start():
         transfer = '7472616e73666572'
 
         # rootdir = '/Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test'
-        executable = sys.executable
 
         parser = argparse.ArgumentParser()
         parser.add_argument("-d", "--db", default='neo-otc',

@@ -103,8 +103,8 @@ class NEP5Handler(object):
                             "hash": obj['state']['value'][2]['value'],
                         },
                         "value": Fixed8.getNumStr(obj['state']['value'][3]['value']),
-                        'createdAt': block_time.json()['result']['time'],
-                        'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        'createdAt': str(block_time.json()['result']['time']),
+                        'updatedAt': str(block_time.json()['result']['time'])
                     })
                     # from address
                     address_form = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
@@ -117,8 +117,8 @@ class NEP5Handler(object):
                                 "hash": obj['state']['value'][1]['value']
                             },
                             "contract": obj['contract'],
-                            'createdAt': block_time.json()['result']['time'],
-                            'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            'createdAt': str(block_time.json()['result']['time']),
+                            'updatedAt': str(block_time.json()['result']['time'])
                         })
 
                     # to
@@ -132,8 +132,8 @@ class NEP5Handler(object):
                                 "hash": obj['state']['value'][2]['value']
                             },
                             "contract": obj['contract'],
-                            'createdAt': block_time.json()['result']['time'],
-                            'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            'createdAt': str(block_time.json()['result']['time']),
+                            'updatedAt': str(block_time.json()['result']['time'])
                         })
 
                 else:

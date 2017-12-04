@@ -75,6 +75,17 @@ class NEP5Handler(object):
 
                 print 'nep5_m_transactions', result
                 if result is None:
+                    print 'blockIndex', obj['blockIndex']
+                    #  rpc block_time
+                    block_time = requests.post(url, json={
+                        "jsonrpc": "2.0",
+                        "method": "getblock",
+                        "params": [int(obj['blockIndex']), 1],
+                        "id": 1
+                    })
+
+                    # print 'block_time', block_time.json()
+
                     self.db['nep5_m_transactions'].insert_one({
                         "blockIndex": obj['blockIndex'],
                         "txid": obj['txid'],
@@ -92,7 +103,7 @@ class NEP5Handler(object):
                             "hash": obj['state']['value'][2]['value'],
                         },
                         "value": Fixed8.getNumStr(obj['state']['value'][3]['value']),
-                        'createdAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'createdAt': block_time.json()['result']['time'],
                         'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     })
                     # from address
@@ -106,7 +117,7 @@ class NEP5Handler(object):
                                 "hash": obj['state']['value'][1]['value']
                             },
                             "contract": obj['contract'],
-                            'createdAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                            'createdAt': block_time.json()['result']['time'],
                             'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         })
 
@@ -121,7 +132,7 @@ class NEP5Handler(object):
                                 "hash": obj['state']['value'][2]['value']
                             },
                             "contract": obj['contract'],
-                            'createdAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                            'createdAt': block_time.json()['result']['time'],
                             'updatedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         })
 

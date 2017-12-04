@@ -23,8 +23,8 @@ class NEP5Handler(object):
             # print obj['state']['value'][0]['value']
         # url = 'http://127.0.0.1:10332'
         try:
-            url = 'http://seed2.neo.org:10332'
-            # url = 'http://127.0.0.1:10332'
+            # url = 'http://seed2.neo.org:10332'
+            url = 'http://127.0.0.1:10332'
 
             # transferred
             # not contain mintToken

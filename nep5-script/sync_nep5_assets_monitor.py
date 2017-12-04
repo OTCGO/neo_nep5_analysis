@@ -16,6 +16,8 @@ import binascii
 import argparse
 from time import strftime, gmtime
 from NEP5Handler import NEP5Handler
+import os
+import sys
 
 
 class FileEventHandler(FileSystemEventHandler):
@@ -101,6 +103,7 @@ def start():
         transfer = '7472616e73666572'
 
         # rootdir = '/Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test'
+        executable = sys.executable
 
         parser = argparse.ArgumentParser()
         parser.add_argument("-d", "--db", default='neo-otc',
@@ -121,7 +124,7 @@ def start():
                 time.sleep(1)
         except KeyboardInterrupt:
             time.sleep(1)
-            start()
+            os.execvp(executable, args)
         observer.join()
 
     except Exception as e:

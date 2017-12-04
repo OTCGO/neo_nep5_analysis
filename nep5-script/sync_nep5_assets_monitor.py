@@ -95,8 +95,7 @@ def get_block_index(filename):
 
 # python sync_nep5_assets_monitor.py - d neo - otc - r / home / wei / Desktop / neo - work / neo - cli / Notifications - m 127.0.0.1: 27017
 
-if __name__ == "__main__":
-
+def start():
     try:
         # 定义操作
         transfer = '7472616e73666572'
@@ -121,8 +120,13 @@ if __name__ == "__main__":
             while True:
                 time.sleep(1)
         except KeyboardInterrupt:
-            observer.stop()
+            time.sleep(1)
+            start()
         observer.join()
 
     except Exception as e:
         print e
+
+
+if __name__ == "__main__":
+    start()

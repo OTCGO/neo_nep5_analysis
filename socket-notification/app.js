@@ -10,8 +10,10 @@
 const app = require('http').createServer()
 const io = require('socket.io').listen(app)
 const MongoOplog = require('mongo-oplog')
-const oplog = MongoOplog('mongodb://127.0.0.1:27017/local', { ns: 'test.posts' })
+const config = require('config')
+const oplog = MongoOplog(config.get('db.url'))
 
+console.log('config', config)
 app.listen(4002)
 
 io.sockets.on('connection', (socket) => {
@@ -26,7 +28,20 @@ oplog.on('op', data => {
 })
 
 oplog.on('insert', doc => {
-  io.emit('transaction', { for: 'everyone' })
+  switch (doc.ns) {
+    case 'neo-otcgo.nep5_m_transactions':
+      io.emit('transaction', 'new')
+      break
+    case 'neo-otcgo.nep5_m_addresses':
+      io.emit('address', 'new')
+      break
+    case 'neo-otcgo.test':
+      io.emit('transaction', 'new')
+      io.emit('address', 'new')
+      console.log('test')
+      break
+    default : break
+  }
   console.log(doc)
 })
 

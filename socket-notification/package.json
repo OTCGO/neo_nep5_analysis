@@ -1,0 +1,16 @@
+{
+  "name": "socket-notification",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "qknow",
+  "license": "MIT",
+  "dependencies": {
+    "mongo-oplog": "^2.1.0",
+    "socket.io": "^2.0.4"
+  }
+}

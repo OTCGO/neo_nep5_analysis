@@ -5,9 +5,20 @@ module.exports = {
     apiPrefix: '/api/v1' // api 前缀
   },
   db: {
-    url: 'mongodb://114.215.30.71/neo-otcgo',
+  //  url: 'mongodb://otcgo.cn:u3fhhrPr@114.215.30.71:27017,114.215.30.71:27018,114.215.30.71:27019/neo-otcgo?replicaSet=rs0',
+   // url: 'mongodb://114.215.30.71:27020/neo-otcgo',
+    url: 'mongodb://114.215.30.71:27017/neo-otcgo?replicaSet=rs1',
+   // otcgo.cn:u3fhhrPr
+   // url: 'mongodb://114.215.30.71:27017/neo-otcgo?replicaSet=rs0',
+  //  url: 'mongodb://otcgo:u3fhhrPr@127.0.0.1:27020/neo-otcgo?replicaSet=rs0',
+   //
     options: {
-      useMongoClient: true
+      useMongoClient: true,
+      user: 'otcgo',
+      pass: 'u3fhhrPr',
+      auth: {
+        authdb: 'admin'
+      }
     },
     debug: true
   },

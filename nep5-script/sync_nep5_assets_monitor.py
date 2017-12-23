@@ -111,6 +111,7 @@ if __name__ == "__main__":
         parser.add_argument("-m", "--mongodb", default='127.0.0.1:27017',
                             help="mongodb for store data,default 127.0.0.1:27017")
         args = parser.parse_args()
+        print args
 
         # 监控文件夹
         observer = Observer()

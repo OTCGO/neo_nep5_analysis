@@ -14,7 +14,7 @@ import requests
 class NEP5Handler(object):
     def __init__(self, args):
         # print args.db
-        self.client = pymongo.MongoClient('mongodb://' + args.mongodb + '/')
+        self.client = pymongo.MongoClient('mongodb://' + args.mongodb)
         self.db = self.client[args.db]
         # self.collection = self.db.nep5
         self.wallet = Wallet()

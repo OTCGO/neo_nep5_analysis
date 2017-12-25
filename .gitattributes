@@ -1,2 +1,4 @@
 web-server/config/production.js filter=git-crypt diff=git-crypt
+socket-notification/config/production.js filter=git-crypt diff=git-crypt
+socket-notification/config/default.js filter=git-crypt diff=git-crypt
 

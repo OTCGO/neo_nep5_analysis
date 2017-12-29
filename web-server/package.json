@@ -38,7 +38,8 @@
     "method-override": "^2.3.9",
     "mongoose": "^4.13.4",
     "mongoose-timestamp": "^0.6.0",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "neon-js": "git+https://github.com/CityOfZion/neon-js.git"
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.5",

@@ -94,8 +94,6 @@ if __name__ == "__main__":
                             help="verify database name, default antshares")
         parser.add_argument("-r", "--rootdir", default='/Notifications',
                             help="neo cli notifications finder")
-        parser.add_argument("-m", "--mongodb", default='127.0.0.1:27017',
-                            help="mongodb for store data,default 127.0.0.1:27017")
         args = parser.parse_args()
 
         print args

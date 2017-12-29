@@ -1,6 +1,6 @@
 [{
-    "txid": "0xbaf34c9ef5b3a2548b70feab1b63f6c6e4f8b351b4119f2c96e993f109befbd8",
-    "contract": "0x0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5",
+    "txid": "0xa8a091200672963bce28fc3a9beb5fcb3846ce758df734529be7c0016bcf7f12",
+    "contract": "0xecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
     "state": {
         "type": "Array",
         "value": [{
@@ -8,13 +8,51 @@
             "value": "7472616e73666572"
         }, {
             "type": "ByteArray",
-            "value": "010f4c08e9c400707c031ae3d13dbc0b6650d8e6"
+            "value": "d93f9a2d0b28c94811c128df284c0f9eef171b55"
         }, {
             "type": "ByteArray",
-            "value": "a9d48a5c1d47b20066831939ec64175ad86c337a"
+            "value": "a4880426e0edcdbe9ff11dece5811eec40352134"
         }, {
             "type": "ByteArray",
-            "value": "00309112d51f00"
+            "value": "00bca0650100"
+        }]
+    }
+}, {
+    "txid": "0x5526dfeb318e94e26bf614bc20e7065ce4bb00fa24b30d1f472e1ef8299d0868",
+    "contract": "0xecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
+    "state": {
+        "type": "Array",
+        "value": [{
+            "type": "ByteArray",
+            "value": "7472616e73666572"
+        }, {
+            "type": "ByteArray",
+            "value": "d93f9a2d0b28c94811c128df284c0f9eef171b55"
+        }, {
+            "type": "ByteArray",
+            "value": "bb281973b7201294ccd5712b56d59db760543e54"
+        }, {
+            "type": "ByteArray",
+            "value": "00bca0650100"
+        }]
+    }
+}, {
+    "txid": "0x2ff027efb553f02986acdfc8db1aeeaeb7cc18808cdfd413a58184e353dd062e",
+    "contract": "0xecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
+    "state": {
+        "type": "Array",
+        "value": [{
+            "type": "ByteArray",
+            "value": "7472616e73666572"
+        }, {
+            "type": "ByteArray",
+            "value": "d93f9a2d0b28c94811c128df284c0f9eef171b55"
+        }, {
+            "type": "ByteArray",
+            "value": "4120e4fa64ebfd96ff737f6a39c1d2d857ed694c"
+        }, {
+            "type": "ByteArray",
+            "value": "00bca0650100"
         }]
     }
 }]

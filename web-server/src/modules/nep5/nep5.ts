@@ -15,6 +15,9 @@ import * as graphqlHTTP from 'express-graphql'
 import { Request as WebHandler } from '../../utils'
 import {  Asset } from '../../models'
 import schema from '../../graphql'
+import { api } from '@cityofzion/neon-js'
+import { parallel } from '../../utils/index'
+
 
 
 const logger = log4js.getLogger('nep5')
@@ -46,36 +49,25 @@ nep5.use(`/public/graphql`, graphqlHTTP({
 
 nep5.post(`/address/balanceOf`,  async (req: NRequest, res: any)  => {
      try {
-       const body = req.body
-    //   logger.info(`${config.get('rpc')}`)
-    //   const result: any = await WebHandler({
-    //     url: `${config.get('rpc')}`,
-    //     method: 'post',
-    //     json: {
-    //       jsonrpc: '2.0',
-    //       method: 'invokefunction',
-    //       params: [
-    //         'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
-    //         'balanceOf',
-    //         [
-    //           {
-    //             type: 'Hash160',
-    //             value: 'bfc469dd56932409677278f6b7422f3e1f34481d'
-    //           }
-    //         ]
-    //       ],
-    //       id: 3
-    //     }
-    //   })
-
-      const asset = await Asset.findOne({contract: body.contract})
-
-     return res.apiSuccess({
-       address: 'bfc469dd56932409677278f6b7422f3e1f34481d',
-       contract: 'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
-       symbol: asset.symbol,
-       value: 30
+      const { address } = req.body
+      logger.info('address', address)
+      logger.info('rpc', config.get('rpc'))
+      // const result = await api.nep5.getTokenBalance(config.get('rpc'), '0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5', 'ARGpitrDs1rcynXmBd6JRgvEJ8PLSetFiW')
+      // logger.info('result', result)
+      const asset: any = await Asset.find()
+      logger.info('asset', asset)
+      const arr = []
+      asset.forEach(item => {
+          logger.info('contract', item.contract)
+          arr.push(async () => {
+            item.balances = await api.nep5.getTokenBalance(config.get('rpc'), item.contract.substring(2), address)
+            return item
+          })
       })
+      const result = await parallel(arr, 10)
+      logger.info('asset', result)
+      return res.apiSuccess(result)
+
     } catch (error) {
       logger.error('nep5', error)
       return res.apiError(error)

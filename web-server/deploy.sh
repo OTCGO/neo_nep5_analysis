@@ -2,7 +2,9 @@
 export NVM_DIR="/home/qknow/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 cd /var/otcgo/neo_wallet_analysis/web-server
+git reset --hard
 git pull origin master:master
+rf -rf dist/
 npm install
 npm run build
 count=`pm2 list|grep neo-nep5 |grep -v grep |wc -l`

@@ -58,10 +58,16 @@ nep5.get(`/address/balances/:address`,  async (req: NRequest, res: any)  => {
       logger.info('asset', asset)
       const arr = []
       asset.forEach(item => {
-          logger.info('contract', item.contract)
           arr.push(async () => {
-            item.balances = await api.nep5.getTokenBalance(config.get('rpc'), item.contract.substring(2), address)
-            return item
+            const balances = await api.nep5.getTokenBalance(config.get('rpc'), item.contract.substring(2), address)
+            return {
+              _id: item._id,
+              updatedAt: item.updatedAt,
+              contract: item.contract,
+              createdAt: item.createdAt,
+              symbol: item.symbol,
+              balances
+            }
           })
       })
       const result = await parallel(arr, 10)

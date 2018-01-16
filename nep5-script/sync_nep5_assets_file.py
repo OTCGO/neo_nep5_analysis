@@ -79,7 +79,7 @@ def get_block_index(filename):
     return os.path.splitext(blockIndex[1])
 
 
-# python sync_nep5_assets_file.py -d neo-otcgo -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
+# python sync_nep5_assets_file.py  -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -d neo-otcgo -m mongodb://otcgo:u3fhhrPr@114.215.30.71:27017/?authSource=admin&replicaSet=rs1 
 
 # python sync_nep5_assets_file.py -d neo-otc -r /home/wei/Desktop/neo-work/neo-cli/Notifications -m 127.0.0.1:27017
 
@@ -90,8 +90,10 @@ if __name__ == "__main__":
         # 定义操作
         transfer = '7472616e73666572'
         parser = argparse.ArgumentParser()
-        parser.add_argument("-d", "--db", default='neo-otc',
+        parser.add_argument("-m", "--mongodb",
                             help="verify database name, default antshares")
+        parser.add_argument("-d", "--db",
+                            help="verify collections name, default antshares")                    
         parser.add_argument("-r", "--rootdir", default='/Notifications',
                             help="neo cli notifications finder")
         args = parser.parse_args()

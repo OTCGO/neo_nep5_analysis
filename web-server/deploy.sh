@@ -9,7 +9,7 @@ npm install
 npm run build
 count=`pm2 list|grep neo-nep5 |grep -v grep |wc -l`
 if [ $count -eq 0 ];then
-pm2 pm2.prod.config.js 
+pm2 start pm2.prod.config.js 
 else
 pm2 restart pm2.prod.config.js 
 fi

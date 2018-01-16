@@ -13,22 +13,24 @@ import requests
 
 class NEP5Handler(object):
     def __init__(self, args):
-        # print args.db
+        print args.mongodb
+        print args.db
         # self.client = pymongo.MongoClient('mongodb://' + args.mongodb)
         # self.db = pymongo.MongoClient('mongodb://otcgo:u3fhhrPr@114.215.30.71:27017/?authSource=admin&replicaSet=rs1')['neo-otcgo']
         # self.collection = self.db.nep5
-        self.db = pymongo.MongoClient('mongodb://otcgo:u3fhhrPr@127.0.0.1:27017/?authSource=admin&replicaSet=rs1')['neo-otcgo']   
+        # self.db = pymongo.MongoClient('mongodb://otcgo:u3fhhrPr@127.0.0.1:27017/?authSource=admin&replicaSet=rs1')  
+        self.db = pymongo.MongoClient(args.mongodb)[args.db]
         self.wallet = Wallet()
 
     def transfer(self, obj):
             # print obj['state']['value'][0]['value']
         # url = 'http://127.0.0.1:10332'
         try:
-            url = 'http://seed2.neo.org:10332'
-            # url = 'http://127.0.0.1:10332'
+            # url = 'http://seed2.neo.org:10332'
+            url = 'http://114.215.30.71:10332'
 
            
-            #  mintToken
+            #  mintTokens
             if obj['state']['value'][1]['value'] == "":
                 asserts = self.db['nep5_m_assets'].find_one({
                     "contract": obj['contract'],
@@ -87,7 +89,7 @@ class NEP5Handler(object):
                         "blockIndex": obj['blockIndex'],
                         "txid": obj['txid'],
                         "contract": obj['contract'],
-                        "operation": binascii.unhexlify(obj['state']['value'][0]['value']),
+                        "operation": 'mintTokens',
                         # 转出
                         "from": {
                             "value": "",

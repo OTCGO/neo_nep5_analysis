@@ -100,15 +100,15 @@ if __name__ == "__main__":
     try:
         # 定义操作
         transfer = '7472616e73666572'
-
-        # rootdir = '/Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test'
-
         parser = argparse.ArgumentParser()
-        parser.add_argument("-d", "--db", default='neo-otc',
+        parser.add_argument("-m", "--mongodb",
                             help="verify database name, default antshares")
+        parser.add_argument("-d", "--db",
+                            help="verify collections name, default antshares")                    
         parser.add_argument("-r", "--rootdir", default='/Notifications',
                             help="neo cli notifications finder")
         args = parser.parse_args()
+        
         print args
 
         # 监控文件夹

@@ -27,7 +27,7 @@ class NEP5Handler(object):
         # url = 'http://127.0.0.1:10332'
         try:
             # url = 'http://seed2.neo.org:10332'
-            url = 'http://114.215.30.71:10332'
+            url = 'http://127.0.0.1:10332'
 
            
             #  mintTokens

@@ -1,0 +1,65 @@
+{
+  "name": "neo_wallet_analysis",
+  "version": "1.0.0",
+  "main": "./src/app.ts",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon  ./src/app.ts --exec ts-node  --no-cache  --ignore=./config",
+    "build": "tsc",
+    "tslint": "jake lint"
+  },
+  "keywords": [
+    "NEO",
+    "RPX",
+    "NEP5"
+  ],
+  "config": {
+    "pre-git": {
+      "commit-msg": "",
+      "pre-commit": [],
+      "pre-push": [],
+      "post-commit": [],
+      "post-checkou": [],
+      "post-merge": []
+    }
+  },
+  "dependencies": {
+    "@cityofzion/neon-js": "git+https://github.com/CityOfZion/neon-js.git",
+    "@types/express": "^4.0.39",
+    "async": "^2.6.0",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.17.2",
+    "config": "^1.26.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "graphql": "^0.11.7",
+    "joi": "^13.0.1",
+    "log4js": "^1.1.1",
+    "method-override": "^2.3.9",
+    "mongoose": "^4.13.4",
+    "mongoose-timestamp": "^0.6.0",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.16.5",
+    "@types/config": "0.0.32",
+    "@types/cors": "^2.8.1",
+    "@types/joi": "^10.4.4",
+    "@types/log4js": "0.0.33",
+    "@types/method-override": "0.0.30",
+    "@types/request": "^2.0.8",
+    "jake": "^8.0.15",
+    "pre-git": "^3.16.0",
+    "typescript": "^2.6.2"
+  },
+  "standard": {
+    "globals": [
+      "desc",
+      "task"
+    ]
+  },
+  "release": {
+    "analyzeCommits": "simple-commit-message"
+  }
+}

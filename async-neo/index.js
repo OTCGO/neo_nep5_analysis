@@ -1,6 +1,6 @@
 // -- Bootstrap
 
-const Node = require('./dist/node')
+const Node = require('./src/node')
 
 // -- Chain of command
 

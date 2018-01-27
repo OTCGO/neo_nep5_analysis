@@ -1,27 +1,14 @@
 // -- Bootstrap
 
 const Node = require('./src/node')
-
+const config = require('config')
 // -- Chain of command
 
 async function main () {
   console.log('== Test Syncing Example ==')
 
   // Instantiate a mainnet node with specified local storage (and to a separate database as default of mongodb.js)
-  const options = {
-    network: 'mainnet',
-    storage: {
-      model: 'mongoDB',
-      connectOnInit: true,
-      connectionString: 'mongodb://otcgo:u3fhhrPr@127.0.0.1:27017/neo-main?authSource=admin',
-     // connectionString: 'mongodb://127.0.0.1:27017/neo-main',
-      collectionNames: {
-        blocks: 'b_neo_m_blocks',
-        transactions: 'b_neo_m_transactions',
-        addresses: 'b_neo_m_addresses'
-      }
-    }
-  }
+  const options = config.get('config')
   const node = new Node(options)
 
   // Allow it to sync for 30 seconds

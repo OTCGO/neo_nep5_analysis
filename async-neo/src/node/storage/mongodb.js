@@ -15,12 +15,14 @@ class MongodbStorage {
       collectionNames: {
         blocks: 'b_neo_t_blocks',
         transactions: 'b_neo_t_transactions',
-        addresses: 'b_neo_t_addresses'
+        addresses: 'b_neo_t_addresses',
+        assets: 'b_neo_t_assets'
       }
     }, options)
     this.blockModel = this._getBlockModel()
     this.transactionModel = this._getTransactionModel()
     this.addressModel = this._getAddressModel()
+    this.assetModel = this._getAssetModel()
 
     // Bootstrap
     mongoose.Promise = global.Promise // Explicitly supply promise library (http://mongoosejs.com/docs/promises.html)
@@ -178,12 +180,12 @@ class MongodbStorage {
   }
 
   /**
-   * @param {String} hash
+   * @param {String} asset_id
    * @returns {Promise.<Object>}
    */
-  getAsset (hash) {
+  getAsset (assetId) {
     return new Promise((resolve, reject) => {
-      this.addressModel.findOne({ type: 'a', address: hash })
+      this.assetModel.findOne({ id: assetId })
         .exec((err, res) => {
           if (err) {
             reject(err)
@@ -198,7 +200,7 @@ class MongodbStorage {
    */
   getAssetList () {
     return new Promise((resolve, reject) => {
-      this.addressModel.find({ type: 'a' })
+      this.assetModel.find({})
         .exec((err, res) => {
           if (err) {
             reject(err)
@@ -241,7 +243,7 @@ class MongodbStorage {
    */
   saveAsset (asset) {
     return new Promise((resolve, reject) => {
-      this.addressModel(asset).save((err) => {
+      this.assetModel(asset).save((err) => {
         if (err) {
           reject(err)
         }
@@ -269,6 +271,8 @@ class MongodbStorage {
    * @param {String} hash
    * @param {Object} assetState
    */
+
+   /*
   saveAssetState (hash, assetState) {
     return new Promise((resolve, reject) => {
       this.getAsset(hash)
@@ -284,6 +288,7 @@ class MongodbStorage {
         .catch((err) => reject(err))
     })
   }
+  */
 
   /**
    * @param {Object} tx
@@ -317,9 +322,9 @@ class MongodbStorage {
    * @param {String} hash
    * @returns {Promise.<Object>}
    */
-  getAddress (hash) {
+  getAddress (address) {
     return new Promise((resolve, reject) => {
-      this.addressModel.findOne({ address: hash })
+      this.addressModel.findOne({ address: address })
         .exec((err, res) => {
           if (err) {
             reject(err)
@@ -454,7 +459,7 @@ class MongodbStorage {
       previousblockhash: String,
       merkleroot: String,
       time: Number,
-      index: {type: 'Number', unique: true, required: true, dropDups: true},
+      index: {type: 'Number', unique: true, required: true},
       nonce: String,
       nextconsensus: String,
       script: {
@@ -474,7 +479,7 @@ class MongodbStorage {
    */
   _getTransactionModel () {
     const schema = new mongoose.Schema({
-      txid: { type: 'String', unique: true, required: true, dropDups: true, index: true },
+      txid: { type: 'String', unique: true, required: true, index: true },
       size: Number,
       type: { type: 'String', index: true },
       version: Number,
@@ -496,15 +501,33 @@ class MongodbStorage {
    */
   _getAddressModel () {
     const schema = new mongoose.Schema({
-      address: { type: 'String', unique: true, required: true, dropDups: true },
-      asset: 'String',
-      type: 'String',
-      assets: [],
-      history: [],
-      state: mongoose.Schema.Types.Mixed
+      address: { type: String, unique: true, required: true },
+      createdAt: String
     })
 
     return mongoose.models[this.collectionNames.addresses] || mongoose.model(this.collectionNames.addresses, schema)
+  }
+
+    /**
+   * @private
+   */
+  _getAssetModel () {
+    const schema = new mongoose.Schema({
+      version: Number,
+      assetId: { type: 'String', unique: true, required: true },
+      type: String,
+      name: [],
+      amount: String,
+      available: String,
+      precision: Number,
+      owner: String,
+      admin: String,
+      issuer: String,
+      expiration: Number,
+      frozen: false
+    })
+
+    return mongoose.models[this.collectionNames.assets] || mongoose.model(this.collectionNames.assets, schema)
   }
 }
 

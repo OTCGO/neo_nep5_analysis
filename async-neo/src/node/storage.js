@@ -23,6 +23,7 @@ class storage {
       index: -1,
       dataAccess: {},
       unlinkedBlocks: [],
+      addresses: [],
       assets: [] },
     options)
 
@@ -342,13 +343,18 @@ class storage {
         // Store the raw transaction
           newBlock.tx.forEach((tx) => {
             tx.blockIndex = newBlock.index
-            tx.vout.forEach((d) => {
-              if (this.assetsFlat.indexOf(d.asset) === -1) {
-                const newAsset = { address: d.asset, asset: d.asset, type: 'a', assets: [] }
-                this.assetsFlat.push(d.asset)
-                this.assets.push(newAsset)
-                this.dataAccess.saveAddress(newAsset)
-              }
+            tx.vout.forEach(async (d) => {
+              // saveAsset
+              const newAsset = { assetId: d.asset }
+              this.dataAccess.saveAsset(newAsset).catch(() => {
+
+              })
+
+              // // save address
+              const newAddress = { address: d.address, createdAt: newBlock.time }
+              this.dataAccess.saveAddress(newAddress).catch(() => {
+
+              })
             })
           })
 

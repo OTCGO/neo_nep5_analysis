@@ -40,7 +40,7 @@ class FileEventHandler(FileSystemEventHandler):
             # data = JSONFileHandler.load(os.path.join(
             #     rootdir, os.path.basename(event.src_path)))
             blockIndex = get_block_index(os.path.basename(event.src_path))
-            # print 'blockIndex', blockIndex
+            print 'blockIndex', blockIndex
             data = JSONFileHandler.load(event.src_path)
             nep5 = NEP5Handler(args)
             if data is not None:

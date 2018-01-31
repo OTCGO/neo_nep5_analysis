@@ -15,6 +15,15 @@ module.exports = {
         authdb: 'admin'
       }
     },
+    dbNep5: {
+      options: {
+        host: '114.215.30.71',
+        user: 'otcgo',
+        pass: 'u3fhhrPr'
+      },
+      isReplset: 'rs1',
+      db: 'neo-otcgo'
+    },
     debug: false
   }
 }

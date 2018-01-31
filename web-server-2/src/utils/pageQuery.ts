@@ -19,7 +19,7 @@
 import async from 'async'
 
 
-const pageQuery = function (skip = 0, limit = 20, Model, populate= {}, queryParams= {}, sortParams = {createdAt: 'desc'}) {
+const pageQuery = function (skip = 0, limit = 20, Model, aggregate= [], queryParams= {}, sortParams: any = {createdAt: -1}, display: any= {}) {
   console.log('queryParams', queryParams)
   return new Promise((resolve, reject) => {
     const $page = {
@@ -28,12 +28,14 @@ const pageQuery = function (skip = 0, limit = 20, Model, populate= {}, queryPara
     }
     async.parallel({
       count (done) {  // 查询数量
-        Model.count(queryParams).exec(function (err, count) {
+        Model.find(queryParams).count(function (err, count) {
+         // console.log('doc', count)
           done(err, count)
         })
       },
       records (done) {   // 查询一页的记录
-        Model.find(queryParams).skip(skip).limit(limit).populate(populate).sort(sortParams).exec(function (err, doc) {
+        // aggregate(aggregate)
+        Model.find(queryParams, display).skip(skip).limit(limit).sort(sortParams).toArray(function (err, doc) {
           done(err, doc)
         })
       }

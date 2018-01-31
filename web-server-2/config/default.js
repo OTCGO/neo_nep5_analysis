@@ -5,13 +5,36 @@ module.exports = {
     apiPrefix: '/api/v1' // api 前缀
   },
   db: {
-    url: 'mongodb://192.168.31.9:27017/neo-otcgo-node',
+    url: 'mongodb://114.215.30.71:27017/neo-otcgo?authSource=admin',
     options: {
-      useMongoClient: true
+      useMongoClient: true,
+      user: 'otcgo',
+      pass: 'u3fhhrPr',
+      auth: {
+        authdb: 'admin'
+      }
     },
     debug: true
   },
   rpc: 'http://seed2.neo.org:10332',
+  dbNep5: {
+    options: {
+      host: '114.215.30.71',
+      user: 'otcgo',
+      pass: 'u3fhhrPr'
+    },
+    isAuthSource: 'admin',
+    db: 'neo-otcgo'
+  },
+  dbGlobal: {
+    options: {
+      host: '114.215.30.71',
+      user: 'otcgo',
+      pass: 'u3fhhrPr'
+    },
+    isAuthSource: 'admin',
+    db: 'neo-main'
+  },
   log: {
     appenders: [ // 日志
       {

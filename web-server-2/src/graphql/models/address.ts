@@ -18,28 +18,8 @@ const address = new graphql.GraphQLObjectType({
     _id: {
       type: graphql.GraphQLString
     },
-    contract: {
-      type: graphql.GraphQLString
-    },
     address: {
-      type: new graphql.GraphQLObjectType({
-        name: 'address',
-        fields: {
-           value: {
-             type: graphql.GraphQLString
-           },
-           hash: {
-             type: graphql.GraphQLString
-           }
-        }
-      })
-    },
-    symbol: {
-      type: graphql.GraphQLString,
-      async resolve (address) {
-        const asset = await Asset.findOne({contract: address.contract})
-        return asset.symbol
-      }
+      type: graphql.GraphQLString
     },
     createdAt: {
       type: graphql.GraphQLString

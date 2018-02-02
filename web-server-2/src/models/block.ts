@@ -1,5 +1,5 @@
 import { mongoose } from '../lib'
-import * as timestamps from 'mongoose-timestamp'
+// import * as timestamps from 'mongoose-timestamp'
 
 
 
@@ -29,10 +29,10 @@ const block = new mongoose.Schema(baseSchema, {
     strict: false
 })
 
-block.plugin(timestamps, {
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-})
+// block.plugin(timestamps, {
+//   createdAt: 'createdAt',
+//   updatedAt: 'updatedAt'
+// })
 
 
 const Block = mongoose.model('Block', block)

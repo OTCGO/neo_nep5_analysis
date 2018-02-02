@@ -17,11 +17,17 @@ const asset = new graphql.GraphQLObjectType({
     _id: {
       type: graphql.GraphQLString
     },
+    assetId: {
+      type: graphql.GraphQLString
+    },
     contract: {
       type: graphql.GraphQLString
     },
     symbol: {
         type: graphql.GraphQLString
+    },
+    type: {
+      type: graphql.GraphQLString
     },
     createdAt: {
       type: graphql.GraphQLString

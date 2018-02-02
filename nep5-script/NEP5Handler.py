@@ -23,11 +23,11 @@ class NEP5Handler(object):
         self.wallet = Wallet()
 
     def transfer(self, obj):
-            # print obj['state']['value'][0]['value']
+        # print obj['state']['value'][0]['value']
         # url = 'http://127.0.0.1:10332'
         try:
             # url = 'http://seed2.neo.org:10332'
-            url = 'http://127.0.0.1:10332'
+            url = 'http://114.215.30.71:10332'
 
            
             #  mintTokens
@@ -107,7 +107,7 @@ class NEP5Handler(object):
                     })
 
                     # to
-                    address_to = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
+                    address_to = self.db['nep5_m_addresses'].find_one({"address.value": self.wallet.toAddress(
                         obj['state']['value'][2]['value'])})
 
                     if address_to is None:
@@ -199,37 +199,40 @@ class NEP5Handler(object):
                         'createdAt': str(block_time.json()['result']['time']),
                         'updatedAt': str(block_time.json()['result']['time'])
                     })
-                    # from address
-                    address_form = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
-                        obj['state']['value'][1]['value'])})
-
-                    if address_form is None:
-                        self.db['nep5_m_addresses'].insert_one({
-                            "address":  {
-                                "value": self.wallet.toAddress(obj['state']['value'][1]['value']),
-                                "hash": obj['state']['value'][1]['value']
-                            },
-                            "contract": obj['contract'],
-                            'createdAt': str(block_time.json()['result']['time']),
-                            'updatedAt': str(block_time.json()['result']['time'])
-                        })
-
-                    # to
-                    address_to = self.db['nep5_m_addresses'].find_one({"address": self.wallet.toAddress(
-                        obj['state']['value'][2]['value'])})
-
-                    if address_to is None:
-                        self.db['nep5_m_addresses'].insert_one({
-                            "address": {
-                                "value": self.wallet.toAddress(obj['state']['value'][2]['value']),
-                                "hash": obj['state']['value'][2]['value']
-                            },
-                            "contract": obj['contract'],
-                            'createdAt': str(block_time.json()['result']['time']),
-                            'updatedAt': str(block_time.json()['result']['time'])
-                        })
-
                 else:
                     print 'txid', obj['txid'], 'exist'
+
+                # from address
+                address_form = self.db['nep5_m_addresses'].find_one({"address.value": self.wallet.toAddress(
+                    obj['state']['value'][1]['value'])})
+
+                print 'address_form', address_form
+                if address_form is None:
+                    self.db['nep5_m_addresses'].insert_one({
+                        "address":  {
+                            "value": self.wallet.toAddress(obj['state']['value'][1]['value']),
+                            "hash": obj['state']['value'][1]['value']
+                        },
+                        "contract": obj['contract'],
+                        'createdAt': str(block_time.json()['result']['time']),
+                        'updatedAt': str(block_time.json()['result']['time'])
+                    })
+
+                # to
+                address_to = self.db['nep5_m_addresses'].find_one({"address.value": self.wallet.toAddress(
+                    obj['state']['value'][2]['value'])})
+
+                print 'address_to', address_to
+                if address_to is None:
+                    self.db['nep5_m_addresses'].insert_one({
+                        "address": {
+                            "value": self.wallet.toAddress(obj['state']['value'][2]['value']),
+                            "hash": obj['state']['value'][2]['value']
+                        },
+                        "contract": obj['contract'],
+                        'createdAt': str(block_time.json()['result']['time']),
+                        'updatedAt': str(block_time.json()['result']['time'])
+                    })
+
         except Exception as e:
             print e

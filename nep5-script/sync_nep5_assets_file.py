@@ -81,7 +81,7 @@ def get_block_index(filename):
 
 # python sync_nep5_assets_file.py  -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -d neo-otcgo -m mongodb://otcgo:u3fhhrPr@114.215.30.71:27017/?authSource=admin&replicaSet=rs1 
 
-# python sync_nep5_assets_file.py -d neo-otc -r /home/wei/Desktop/neo-work/neo-cli/Notifications -m 127.0.0.1:27017
+# python sync_nep5_assets_file.py -d neo-otc -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
 
 
 if __name__ == "__main__":

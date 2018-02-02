@@ -48,8 +48,9 @@ class FileEventHandler(FileSystemEventHandler):
                     # print type(item)
                     # print item['txid']
                     item['blockIndex'] = blockIndex
-                    if item['state']['value'][0]['value'] == transfer:
-                        nep5.transfer(item)
+                    nep5.transfer(item)
+                    # if item['state']['value'][0]['value'] == transfer:
+                    #     nep5.transfer(item)
             # print data
 
     def on_deleted(self, event):
@@ -93,7 +94,7 @@ def get_block_index(filename):
 
 # python sync_nep5_assets_monitor.py -d neo-otc -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
 
-# python sync_nep5_assets_monitor.py - d neo - otc - r / home / wei / Desktop / neo - work / neo - cli / Notifications - m 127.0.0.1: 27017
+# python sync_nep5_assets_monitor.py - d neo - otc - r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test - m 127.0.0.1: 27017
 
 
 if __name__ == "__main__":
@@ -104,11 +105,11 @@ if __name__ == "__main__":
         parser.add_argument("-m", "--mongodb",
                             help="verify database name, default antshares")
         parser.add_argument("-d", "--db",
-                            help="verify collections name, default antshares")                    
+                            help="verify collections name, default antshares")
         parser.add_argument("-r", "--rootdir", default='/Notifications',
                             help="neo cli notifications finder")
         args = parser.parse_args()
-        
+
         print args
 
         # 监控文件夹
@@ -126,3 +127,6 @@ if __name__ == "__main__":
 
     except Exception as e:
         print e
+        time.sleep(1)
+        observer.start()
+        

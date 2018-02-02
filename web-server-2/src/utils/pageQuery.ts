@@ -34,8 +34,13 @@ const pageQuery = function (skip = 0, limit = 20, Model, aggregate= [], queryPar
         })
       },
       records (done) {   // 查询一页的记录
+        if (!limit) {
+         return Model.find(queryParams, display).skip(skip).sort(sortParams).toArray(function (err, doc) {
+            done(err, doc)
+          })
+        }
         // aggregate(aggregate)
-        Model.find(queryParams, display).skip(skip).limit(limit).sort(sortParams).toArray(function (err, doc) {
+        return Model.find(queryParams, display).skip(skip).limit(limit).sort(sortParams).toArray(function (err, doc) {
           done(err, doc)
         })
       }

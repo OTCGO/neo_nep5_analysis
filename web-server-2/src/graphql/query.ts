@@ -9,12 +9,16 @@
 
 import * as graphql from 'graphql'
 import * as config from 'config'
+import * as _ from 'lodash'
+import * as async from 'async'
 import { address, transaction, asset, block } from './models'
 // import { Address, Transaction, Asset } from '../models'
 import { queryBuilder, argsBuilder, pageQuery } from '../utils'
 import { DBClient } from '../lib'
+import { getAssetState } from '../services'
 
-// const dbNep5Client: any = new DBClient(config.get('dbNep5'))
+
+const dbNep5Client: any = new DBClient(config.get('dbNep5'))
 const dbGlobalClient: any = new DBClient(config.get('dbGlobal'))
 
 
@@ -76,10 +80,7 @@ const query = new graphql.GraphQLObjectType({
         },
         blockIndex: {
           type: graphql.GraphQLInt
-        },
-        search: {
-          type: graphql.GraphQLString
-        },
+        }
       }),
       async resolve (root, args) {
         // if (args.search) {
@@ -118,11 +119,42 @@ const query = new graphql.GraphQLObjectType({
         _id: {
           type: graphql.GraphQLString
         },
+        assetId: {
+          type: graphql.GraphQLString
+        },
+        contract: {
+          type: graphql.GraphQLString
+        },
         symbol: {
           type: graphql.GraphQLString
         },
       }),
       async resolve (root, args) {
+        const dbGlobal = await dbGlobalClient.connection()
+        const resultGlo: any = await pageQuery(args.skip, 0, dbGlobal.b_neo_m_assets, undefined, queryBuilder({}, args), {})
+
+        /*
+        const arr = []
+        async.each(resultGlo, (item, callback) => {
+          arr.push(getAssetState(`${item.assetId}`))
+          callback()
+        })
+
+        async.parallelLimit(arr, 10, (err, result) => {
+          if (err) console.log('err', err)
+          console.log('result', result)
+        })
+        */
+       // console.log('resultGlo', resultGlo)
+        const dbNep5 = await dbNep5Client.connection()
+        const resultNep5: any  = await pageQuery(args.skip, 0, dbNep5.nep5_m_assets, undefined, queryBuilder({}, args), {})
+
+
+
+        return {
+          count: resultGlo.count + resultNep5.count,
+          rows: _.union(resultGlo.rows, resultNep5.rows),
+        }
        // return  pageQuery(args.skip, args.limit, Asset, '', queryBuilder({}, args))
       }
     },
@@ -145,6 +177,9 @@ const query = new graphql.GraphQLObjectType({
         symbol: {
           type: graphql.GraphQLString
         },
+        index: {
+          type: graphql.GraphQLInt
+        }
       }),
       async resolve (root, args) {
         const dbGlobal = await dbGlobalClient.connection()

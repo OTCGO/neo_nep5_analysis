@@ -64,7 +64,7 @@ const transaction = new graphql.GraphQLObjectType({
     },
     */
     blockIndex: {
-      type: graphql.GraphQLString
+      type: graphql.GraphQLInt
     },
     size: {
       type: graphql.GraphQLInt
@@ -73,7 +73,17 @@ const transaction = new graphql.GraphQLObjectType({
       type: graphql.GraphQLString
     },
     scripts: {
-      type: graphql.GraphQLString
+      type: new graphql.GraphQLList(new graphql.GraphQLObjectType({
+        name: 'scripts',
+        fields: {
+          invocation: {
+             type: graphql.GraphQLString
+           },
+           verification: {
+             type: graphql.GraphQLString
+           }
+        }
+      }))
     },
     attributes: {
       type: graphql.GraphQLString

@@ -27,7 +27,12 @@ const asset = new graphql.GraphQLObjectType({
         type: graphql.GraphQLString
     },
     type: {
-      type: graphql.GraphQLString
+      type: graphql.GraphQLString,
+      async resolve (asset) {
+        if (asset.contract) {
+          return 'nep5'
+        }
+      }
     },
     createdAt: {
       type: graphql.GraphQLString

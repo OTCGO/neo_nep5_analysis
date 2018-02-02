@@ -13,7 +13,9 @@ import * as graphql from 'graphql'
 import { DBClient } from '../../lib'
 import * as config from 'config'
 
+
 const dbNep5Client: any = new DBClient(config.get('dbNep5'))
+const dbGlobalClient: any = new DBClient(config.get('dbGlobal'))
 
 const transaction = new graphql.GraphQLObjectType({
   name: 'transaction',
@@ -64,7 +66,7 @@ const transaction = new graphql.GraphQLObjectType({
     },
     */
     blockIndex: {
-      type: graphql.GraphQLString
+      type: graphql.GraphQLInt
     },
     size: {
       type: graphql.GraphQLInt
@@ -73,11 +75,21 @@ const transaction = new graphql.GraphQLObjectType({
       type: graphql.GraphQLString
     },
     scripts: {
-      type: graphql.GraphQLString
+      type: new graphql.GraphQLList(new graphql.GraphQLObjectType({
+        name: 'scripts',
+        fields: {
+          invocation: {
+             type: graphql.GraphQLString
+           },
+           verification: {
+             type: graphql.GraphQLString
+           }
+        }
+      }))
     },
-    attributes: {
-      type: graphql.GraphQLString
-    },
+    // attributes: {
+    //   type: graphql.GraphQLString
+    // },
     vin: {
       type: new graphql.GraphQLList(new graphql.GraphQLObjectType({
         name: 'vin',
@@ -89,6 +101,44 @@ const transaction = new graphql.GraphQLObjectType({
           txid: {
             type: graphql.GraphQLString
           },
+          info: {
+            type: new graphql.GraphQLObjectType({
+              name: 'info',
+              description: 'This is a info',
+              fields: {
+                address: {
+                  type: graphql.GraphQLString
+                },
+                value: {
+                  type: graphql.GraphQLString
+                },
+                asset: {
+                  type: graphql.GraphQLString
+                }
+              },
+            }),
+            async resolve (vin) {
+              try {
+                if (vin) {
+                  const dbGlobal = await dbGlobalClient.connection()
+                  const result = await dbGlobal.b_neo_m_transactions.findOne({txid: vin.txid}, {vout: 1})
+                  console.log('vin', result.vout[vin.vout])
+                  return result.vout[vin.vout]
+                }
+              } catch (error) {
+                console.error('error:vin', error)
+              }
+
+
+            //   return result.vout[vin.n]
+            // //    if (vin) {
+
+            //     console.log('vin', vin)
+            //  //   return asset.symbol
+            //    }
+             }
+          }
+
         }
       }))
     },
@@ -101,7 +151,7 @@ const transaction = new graphql.GraphQLObjectType({
             type: graphql.GraphQLString
           },
           value: {
-            type: graphql.GraphQLInt
+            type: graphql.GraphQLString
           },
           asset: {
             type: graphql.GraphQLString

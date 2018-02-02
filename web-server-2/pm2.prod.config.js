@@ -5,7 +5,7 @@ module.exports = {
      */
   apps: [
     {
-      name: 'neo-nep5',
+      name: 'neo-api',
       script: './dist/app.js',
       env: {   // all environment
         'NODE_ENV': 'production'

@@ -7,7 +7,7 @@ module.exports = {
   rpc: 'http://127.0.0.1:10332',
   dbNep5: {
     options: {
-      host: '127.0.0.1.71',
+      host: '127.0.0.1',
       user: 'otcgo',
       pass: 'u3fhhrPr'
     },
@@ -16,7 +16,7 @@ module.exports = {
   },
   dbGlobal: {
     options: {
-      host: '127.0.0.1.71',
+      host: '127.0.0.1',
       user: 'otcgo',
       pass: 'u3fhhrPr'
     },

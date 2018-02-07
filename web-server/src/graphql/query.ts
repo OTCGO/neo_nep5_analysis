@@ -78,7 +78,7 @@ const query = new graphql.GraphQLObjectType({
       async resolve (root, args) {
         if (args.search) {
           args.$or = [
-            {txid: args.search},
+            {txid: args.search.substring(0, 2) === '0x' ? args.search : `0x${args.search}`},
             {blockIndex: args.search},
             {contract: args.search},
             {operation: args.search},

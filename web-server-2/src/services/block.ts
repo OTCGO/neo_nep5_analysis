@@ -14,13 +14,14 @@ const getAssetState = async (assetId) => {
         },
         json: true
       }
-      return function (callback) {
+      return new Promise<string>((resolve, reject) => {
         request(options, function (error, response, body) {
-          if (error) return callback(error)
-          return callback(undefined, {...body})
+          if (error) return reject(error)
+          return resolve(body)
         })
-      }
+      })
 }
+
 
 
 export { getAssetState }

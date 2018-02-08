@@ -114,7 +114,16 @@ const transaction = new graphql.GraphQLObjectType({
                 },
                 asset: {
                   type: graphql.GraphQLString
-                }
+                },
+                name: {
+                  type: graphql.GraphQLString,
+                  async resolve (info) {
+                    if (info) {
+                      return config.get(`asserts.${info.asset}`)
+                     // console.log('info', info)
+                    }
+                  }
+                },
               },
             }),
             async resolve (vin) {
@@ -159,6 +168,15 @@ const transaction = new graphql.GraphQLObjectType({
           n: {
             type: graphql.GraphQLInt
           },
+          name: {
+            type: graphql.GraphQLString,
+            async resolve (vout) {
+              if (vout) {
+                return config.get(`asserts.${vout.asset}`)
+               // console.log('info', info)
+              }
+            }
+          }
         }
       }))
     },

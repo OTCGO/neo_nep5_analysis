@@ -9,6 +9,8 @@
 
 
 import * as graphql from 'graphql'
+// import { getAssetState } from '../../services'
+import * as config from 'config'
 
 const asset = new graphql.GraphQLObjectType({
   name: 'assets',
@@ -31,6 +33,17 @@ const asset = new graphql.GraphQLObjectType({
       async resolve (asset) {
         if (asset.contract) {
           return 'nep5'
+        }
+      }
+    },
+    name: {
+      type: graphql.GraphQLString,
+      async resolve (assets) {
+       // console.log('assetssss', assets)
+        if (assets.assetId) {
+          return config.get(`asserts.${assets.assetId}`)
+         // const result = await getAssetState(assets.assetId)
+         // console.log('result', result)
         }
       }
     },

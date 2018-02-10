@@ -8,7 +8,7 @@
  */
 
 import { Router } from 'express'
-import { mainnet } from './modules/'
+import { mainnet } from './modules/mainnet'
 
 const router: Router = Router()
 

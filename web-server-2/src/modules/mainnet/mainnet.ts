@@ -20,10 +20,10 @@ import { parallel } from '../../utils/index'
 
 
 
-const logger = log4js.getLogger('nep5')
-const nep5: Router = Router()
+const logger = log4js.getLogger('mainnet')
+const mainnet: Router = Router()
 
-nep5.use(`/public/graphql`, graphqlHTTP({
+mainnet.use(`/public/graphql`, graphqlHTTP({
   schema,
   graphiql: true,
   pretty: true,
@@ -47,7 +47,7 @@ nep5.use(`/public/graphql`, graphqlHTTP({
 }))
 
 
-nep5.get(`/address/balances/:address`,  async (req: NRequest, res: any)  => {
+mainnet.get(`/address/balances/:address`,  async (req: NRequest, res: any)  => {
      try {
       const { address } = req.params
       logger.info('address', address)
@@ -75,12 +75,12 @@ nep5.get(`/address/balances/:address`,  async (req: NRequest, res: any)  => {
       return res.apiSuccess(result)
 
     } catch (error) {
-      logger.error('nep5', error)
+      logger.error('mainnet', error)
       return res.apiError(error)
     }
   })
 
-export { nep5 }
+export { mainnet }
 
 
 

@@ -97,10 +97,10 @@ module.exports = {
       },
       {
         type: 'file',
-        filename: 'logs/nep5.log',
+        filename: 'logs/mainnet.log',
         maxLogSize: 52428800,
         backups: 2,
-        category: 'nep5',
+        category: 'mainnet',
         layout: {
           type: 'json',
           separator: ','

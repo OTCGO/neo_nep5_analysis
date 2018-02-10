@@ -126,12 +126,12 @@ const transaction = new graphql.GraphQLObjectType({
                 },
               },
             }),
-            async resolve (vin) {
+            async resolve (vin, args) {
               try {
                 if (vin) {
                   const dbGlobal = await dbGlobalClient.connection()
                   const result = await dbGlobal.b_neo_m_transactions.findOne({txid: vin.txid}, {vout: 1})
-                  console.log('vin', result.vout[vin.vout])
+                  console.log('args', args)
                   return result.vout[vin.vout]
                 }
               } catch (error) {

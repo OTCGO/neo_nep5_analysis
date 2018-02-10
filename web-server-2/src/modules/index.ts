@@ -7,4 +7,4 @@
  * Copyright (c) 2017 Your Company
  */
 
- export * from './nep5'
+ export * from './mainnet'

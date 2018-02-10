@@ -8,4 +8,4 @@
  */
 
 
-export * from './nep5'
+export * from './mainnet'

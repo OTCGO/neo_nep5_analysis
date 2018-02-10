@@ -8,9 +8,9 @@
  */
 
 import { Router } from 'express'
-import { nep5 } from './modules/'
+import { mainnet } from './modules/'
 
 const router: Router = Router()
 
-router.use('/nep5', nep5)
+router.use('/mainnet', mainnet)
 export default router

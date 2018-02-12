@@ -101,7 +101,7 @@ const transaction = new graphql.GraphQLObjectType({
           txid: {
             type: graphql.GraphQLString
           },
-          info: {
+          utxo: {
             type: new graphql.GraphQLObjectType({
               name: 'info',
               description: 'This is a info',
@@ -126,17 +126,17 @@ const transaction = new graphql.GraphQLObjectType({
                 },
               },
             }),
-            async resolve (vin, args) {
-              try {
-                if (vin) {
-                  const dbGlobal = await dbGlobalClient.connection()
-                  const result = await dbGlobal.b_neo_m_transactions.findOne({txid: vin.txid}, {vout: 1})
-                  console.log('args', args)
-                  return result.vout[vin.vout]
-                }
-              } catch (error) {
-                console.error('error:vin', error)
-              }
+         //   async resolve (vin, args) {
+              // try {
+              //   if (vin) {
+              //     const dbGlobal = await dbGlobalClient.connection()
+              //     const result = await dbGlobal.b_neo_m_transactions.findOne({txid: vin.txid}, {vout: 1})
+              //     console.log('args', args)
+              //     return result.vout[vin.vout]
+              //   }
+              // } catch (error) {
+              //   console.error('error:vin', error)
+              // }
 
 
             //   return result.vout[vin.n]
@@ -145,7 +145,7 @@ const transaction = new graphql.GraphQLObjectType({
             //     console.log('vin', vin)
             //  //   return asset.symbol
             //    }
-             }
+          //   }
           }
 
         }

@@ -42,7 +42,7 @@ function main () {
         for (let i = 0; i < d.vin.length; i++) {
           if (d.vin[i]) {
             let result = await client.db(dbName).collection('b_neo_m_transactions').findOne({txid: d.vin[i].txid})
-            d.vin[i].utxo = result.vout[d.vin[i].vout] || {}
+            d.vin[i].utxo = d.vin[i].vout ? result.vout[d.vin[i].vout] : {}
           }
 
          // console.log('d.vin[i].utxo', d.vin[i].utxo)

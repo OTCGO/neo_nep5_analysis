@@ -92,17 +92,35 @@ const query = new graphql.GraphQLObjectType({
            args['vout.address'] = args.address
            delete args.address
            const dbGlobal = await dbGlobalClient.connection()
+
            const resultGlo: any = await pageQuery(args.skip, 0, dbGlobal.b_neo_m_transactions, undefined, queryBuilder({}, args), {})
 
            // console.log('resultGlo', resultGlo)
 
+          //  const resultGlo: any = await dbGlobal.b_neo_m_transactions.aggregate([
+          //   {
+          //     $lookup: {
+          //       from: 'b_neo_m_transactions',
+          //       localField: 'vin.txid',
+          //       foreignField: 'txid',
+          //       as: 'vin_utxo'
+          //     }
+          //   },
+          //    {$match: { $or: [
+          //     {'vout.address': args['vout.address']},
+          //     {'vin_utxo.vout.address': args['vout.address']},
+          //    ]}},
+          // ]).toArray()
+
+         //  console.log('resultGlo', resultGlo)
+
            const dbNep5 = await dbNep5Client.connection()
            const resultNep5: any  = await pageQuery(args.skip, 0, dbNep5.nep5_m_transactions, undefined, queryBuilder({}, {
             $or: [
-                  {'to.value':  args['vout.address']},
+                {'to.value':  args['vout.address']},
                 {'from.value':  args['vout.address']}
             ]
-           }), undefined, {txid: 1})
+           }), undefined, {txid: 1, blockIndex: 1})
 
            console.log('resultNep5', resultNep5)
            resultNep5.rows.forEach(element => {

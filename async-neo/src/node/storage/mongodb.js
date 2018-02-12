@@ -490,7 +490,8 @@ class MongodbStorage {
       net_fee: Number,
       blockIndex: { type: 'Number', index: true },
       scripts: [],
-      script: String
+      script: String,
+      utxo: { type: Boolean, default: false, index: true }
     })
 
     return mongoose.models[this.collectionNames.transactions] || mongoose.model(this.collectionNames.transactions, schema)

@@ -80,27 +80,62 @@ const query = new graphql.GraphQLObjectType({
         },
         blockIndex: {
           type: graphql.GraphQLInt
+        },
+        address: {
+          type: graphql.GraphQLString
         }
       }),
       async resolve (root, args) {
-        // if (args.search) {
-        //   args.$or = [
-        //     {txid: args.search},
-        //     {blockIndex: args.search},
-        //     {contract: args.search},
-        //     {operation: args.search},
-        //     {'to.value': args.search},
-        //     {'to.hash': args.search},
-        //     {'from.value': args.search},
-        //     {'from.hash': args.search}
-        //   ]
-        //   delete args.search
-        // }
+
+
+        if (args.address) {
+           args['vout.address'] = args.address
+           delete args.address
+           const dbGlobal = await dbGlobalClient.connection()
+
+           const resultGlo: any = await pageQuery(args.skip, 0, dbGlobal.b_neo_m_transactions, undefined, queryBuilder({}, args), {})
+
+           // console.log('resultGlo', resultGlo)
+
+          //  const resultGlo: any = await dbGlobal.b_neo_m_transactions.aggregate([
+          //   {
+          //     $lookup: {
+          //       from: 'b_neo_m_transactions',
+          //       localField: 'vin.txid',
+          //       foreignField: 'txid',
+          //       as: 'vin_utxo'
+          //     }
+          //   },
+          //    {$match: { $or: [
+          //     {'vout.address': args['vout.address']},
+          //     {'vin_utxo.vout.address': args['vout.address']},
+          //    ]}},
+          // ]).toArray()
+
+         //  console.log('resultGlo', resultGlo)
+
+           const dbNep5 = await dbNep5Client.connection()
+           const resultNep5: any  = await pageQuery(args.skip, 0, dbNep5.nep5_m_transactions, undefined, queryBuilder({}, {
+            $or: [
+                {'to.value':  args['vout.address']},
+                {'from.value':  args['vout.address']}
+            ]
+           }), undefined, {txid: 1, blockIndex: 1})
+
+           console.log('resultNep5', resultNep5)
+           resultNep5.rows.forEach(element => {
+            element.type = 'InvocationTransaction'
+           })
+
+          return {
+            count: resultGlo.count + resultNep5.count,
+            rows: _.union(resultGlo.rows, resultNep5.rows),
+          }
+        }
+
 
         const dbGlobal = await dbGlobalClient.connection()
-       // const dbNep5 = await dbNep5Client.connection()
         return  pageQuery(args.skip, args.limit, dbGlobal.b_neo_m_transactions, undefined, queryBuilder({}, args), { blockIndex: -1 })
-       // let nep5Obj = pageQuery(args.skip, args.limit, dbNep5.b_neo_m_transactions, undefined, queryBuilder({}, args), { blockIndex: -1 })
       }
     },
     AssetQuery: {

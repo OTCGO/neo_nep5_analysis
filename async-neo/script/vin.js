@@ -13,10 +13,10 @@ const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID
 
 // Connection URL
-// const url = 'mongodb://otcgo:u3fhhrPr@127.0.0.1:27017/?authSource=admin'
+const url = 'mongodb://otcgo:u3fhhrPr@127.0.0.1:27017/?authSource=admin'
 
 // const url = 'mongodb://127.0.0.1:27017'
-const url = 'mongodb://otcgo:u3fhhrPr@114.215.30.71:27017/?authSource=admin'
+// const url = 'mongodb://otcgo:u3fhhrPr@114.215.30.71:27017/?authSource=admin'
 
 const dbName = 'neo-main'
 // Use connect method to connect to the server

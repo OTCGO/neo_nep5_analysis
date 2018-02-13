@@ -406,6 +406,9 @@ class storage {
     return this.dataAccess.verifyBlocks(start, end)
   }
 
+  verifyTransaction (start = 0, end = this.index) {
+    return this.dataAccess.verifyTransaction(start, end)
+  }
   /**
    * Verifies local blockchain's asset integrity.
    * @returns {Promise.<Array>} An array containing the indices of the invlid assets.

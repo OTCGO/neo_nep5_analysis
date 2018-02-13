@@ -85,6 +85,15 @@ class node {
             })
           })
       }, 180000)
+
+      // 执行一次
+      setTimeout(() => {
+        this.storage.verifyTransaction()
+          .then((res) => {
+            console.log('Transaction verified. end:')
+          })
+      }, 10000)
+
       /*
       setInterval(() => {
         // check for asset state

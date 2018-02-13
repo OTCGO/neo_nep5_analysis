@@ -228,7 +228,7 @@ class MongodbStorage {
         'vout.asset': assetHash,
         blockIndex: { $gte: startBlock }
       })
-        .sort('blockIndex')
+        .sort({blockIndex: 1})
         .exec((err, res) => {
           if (err) {
             reject(err)
@@ -392,7 +392,7 @@ class MongodbStorage {
       console.log('Blockchain Verification: Scanning')
 
       let stream = this.blockModel
-        .find({index: {$gte: start, $lte: end}}, 'index').sort('index')
+        .find({index: {$gte: start, $lte: end}}, 'index').sort({index: 1})
         .cursor()
 
       stream.on('data', (d) => {
@@ -407,6 +407,35 @@ class MongodbStorage {
       })
       stream.on('end', () => {
         resolve(missing)
+      })
+    })
+  }
+
+  verifyTransaction (start, end) {
+   // console.log('verifyTransaction:start', start)
+   // console.log('verifyTransaction:end', end)
+    let self = this
+    return new Promise((resolve, reject) => {
+      console.log('verifyTransaction Verification: Scanning')
+
+      let stream = this.blockModel
+        .find({index: {$gte: start, $lte: end}}, {tx: 1, index: 1}).sort({index: 1})
+        .cursor()
+
+      stream.on('data', (d) => {
+        // console.log('verifyTransaction:d', d.index)
+        d.tx.forEach((tx) => {
+          // console.log('verifyTransaction:tx', d.index)
+          tx.vin.forEach(async item => {
+            tx.blockIndex = d.index
+            // console.log('verifyTransaction:tx', tx.blockIndex)
+            self.saveTransaction(tx).catch(() => {
+            })
+          })
+        })
+      })
+      stream.on('end', () => {
+        resolve()
       })
     })
   }
@@ -487,8 +516,7 @@ class MongodbStorage {
       vin: [{
         vout: Number,
         txid: String,
-        utxo: {},
-        unspent: { type: Boolean, default: false, index: true }
+        utxo: {}
       }],
       vout: [],
       sys_fee: Number,

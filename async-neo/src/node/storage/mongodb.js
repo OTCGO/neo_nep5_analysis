@@ -484,14 +484,18 @@ class MongodbStorage {
       type: { type: 'String', index: true },
       version: Number,
       attributes: [],
-      vin: [],
+      vin: [{
+        vout: Number,
+        txid: String,
+        utxo: {},
+        unspent: { type: Boolean, default: false, index: true }
+      }],
       vout: [],
       sys_fee: Number,
       net_fee: Number,
       blockIndex: { type: 'Number', index: true },
       scripts: [],
-      script: String,
-      utxo: { type: Boolean, default: false, index: true }
+      script: String
     })
 
     return mongoose.models[this.collectionNames.transactions] || mongoose.model(this.collectionNames.transactions, schema)

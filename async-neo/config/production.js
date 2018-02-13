@@ -12,6 +12,7 @@ module.exports = {
           assets: 'b_neo_m_assets'
         }
       }
-    }
+    },
+    mongo: 'mongodb://otcgo:u3fhhrPr@127.0.0.1:27017/?authSource=admin'
   }
   

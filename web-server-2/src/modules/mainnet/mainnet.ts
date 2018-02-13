@@ -13,7 +13,7 @@ import { Router } from 'express'
 import { NRequest } from '../../interface'
 import * as graphqlHTTP from 'express-graphql'
 import { Request as WebHandler } from '../../utils'
-import {  Asset } from '../../models'
+// import {  Asset } from '../../models'
 import schema from '../../graphql'
 import { api } from '@cityofzion/neon-js'
 import { parallel } from '../../utils/index'
@@ -49,30 +49,30 @@ mainnet.use(`/public/graphql`, graphqlHTTP({
 
 mainnet.get(`/address/balances/:address`,  async (req: NRequest, res: any)  => {
      try {
-      const { address } = req.params
-      logger.info('address', address)
-      logger.info('rpc', config.get('rpc'))
-      // const result = await api.nep5.getTokenBalance(config.get('rpc'), '0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5', 'ARGpitrDs1rcynXmBd6JRgvEJ8PLSetFiW')
-      // logger.info('result', result)
-      const asset: any = await Asset.find()
-      logger.info('asset', asset)
-      const arr = []
-      asset.forEach(item => {
-          arr.push(async () => {
-            const balances = await api.nep5.getTokenBalance(config.get('rpc'), item.contract.substring(2), address)
-            return {
-              _id: item._id,
-              updatedAt: item.updatedAt,
-              contract: item.contract,
-              createdAt: item.createdAt,
-              symbol: item.symbol,
-              balances
-            }
-          })
-      })
-      const result = await parallel(arr, 10)
-      logger.info('asset', result)
-      return res.apiSuccess(result)
+      // const { address } = req.params
+      // logger.info('address', address)
+      // logger.info('rpc', config.get('rpc'))
+      // // const result = await api.nep5.getTokenBalance(config.get('rpc'), '0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5', 'ARGpitrDs1rcynXmBd6JRgvEJ8PLSetFiW')
+      // // logger.info('result', result)
+      // const asset: any = await Asset.find()
+      // logger.info('asset', asset)
+      // const arr = []
+      // asset.forEach(item => {
+      //     arr.push(async () => {
+      //       const balances = await api.nep5.getTokenBalance(config.get('rpc'), item.contract.substring(2), address)
+      //       return {
+      //         _id: item._id,
+      //         updatedAt: item.updatedAt,
+      //         contract: item.contract,
+      //         createdAt: item.createdAt,
+      //         symbol: item.symbol,
+      //         balances
+      //       }
+      //     })
+      // })
+      // const result = await parallel(arr, 10)
+      // logger.info('asset', result)
+      return res.apiSuccess('ok')
 
     } catch (error) {
       logger.error('mainnet', error)

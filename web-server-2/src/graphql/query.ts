@@ -114,7 +114,9 @@ const query = new graphql.GraphQLObjectType({
 
           return {
             count: resultGlo.count + resultNep5.count,
-            rows: _.union(resultGlo.rows, resultNep5.rows),
+            rows:  _.take(_.drop(_.sortBy(_.union(resultGlo.rows, resultNep5.rows), (item) => {
+              return -item.blockIndex
+            }), args.skip || 0), args.limit || 20),
           }
         }
 

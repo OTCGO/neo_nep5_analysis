@@ -25,8 +25,10 @@ function main () {
 // Use connect method to connect to the Server passing in
 // additional options
   MongoClient.connect(url, (err, client) => {
-    if (err) return client.close()
+    console.log('err', err)
     console.log('Connected correctly to server')
+    if (err) return client.close()
+
     const db = client.db(dbName)
     const transactions = db.collection('b_neo_m_transactions')
 

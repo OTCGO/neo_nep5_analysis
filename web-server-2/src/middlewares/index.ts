@@ -1,2 +1,2 @@
-export * from "./ValidateMiddleware";
-export * from "./APIOutputMiddleware";
+export * from './ValidateMiddleware'
+export * from './APIOutputMiddleware'

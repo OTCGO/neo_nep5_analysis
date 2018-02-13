@@ -9,7 +9,7 @@
 
 
 import * as graphql from 'graphql'
-import {  Asset } from '../../models'
+
 
 const address = new graphql.GraphQLObjectType({
   name: 'addresses',

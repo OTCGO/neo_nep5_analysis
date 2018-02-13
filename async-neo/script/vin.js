@@ -15,9 +15,9 @@ const config = require('config')
 
 console.log('config', config.get('mongo'))
 // Connection URL
-// const url = config.get('mongo')
+const url = config.get('mongo')
 
-const url = 'mongodb://127.0.0.1:27017'
+// const url = 'mongodb://127.0.0.1:27017'
 // const url = 'mongodb://otcgo:u3fhhrPr@114.215.30.71:27017/?authSource=admin'
 
 const dbName = 'neo-main'
@@ -36,8 +36,8 @@ function main () {
 
     let stream = transactions.find({
       $or: [
-       {'vin.$.utxo': {$exists: false}},
-        {'vin.$.utxo.address': {$exists: false}}
+       {'vin.utxo': {$exists: false}},
+        {'vin.utxo.address': {$exists: false}}
       ]
 
     }).sort({'blockIndex': -1})

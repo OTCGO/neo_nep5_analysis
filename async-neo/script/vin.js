@@ -36,12 +36,13 @@ function main () {
 
     let stream = transactions.find({
       $or: [
-       {'vin.utxo': {$exists: false}},
-        {'vin.utxo.address': {$exists: false}}
+       {'vin.$.utxo': {$exists: false}},
+        {'vin.$.utxo.address': {$exists: false}}
       ]
 
     }).sort({'blockIndex': -1})
     stream.on('data', async (d) => {
+      console.log('d', d.blockIndex)
       for (let i = 0; i < d.vin.length; i++) {
         if (d.vin[i]) {
           let result = await client.db(dbName).collection('b_neo_m_transactions').findOne({txid: d.vin[i].txid})
@@ -54,7 +55,7 @@ function main () {
       }
         // console.log('d', d.vin)
 
-      console.log('d', d.vin)
+      // console.log('d', d.vin)
       transactions.updateOne({
         '_id': ObjectId(d._id)
       }, {

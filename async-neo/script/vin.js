@@ -11,11 +11,13 @@
 
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID
+const config = require('config')
 
+console.log('config', config.get('mongo'))
 // Connection URL
-const url = 'mongodb://otcgo:u3fhhrPr@127.0.0.1:27017/?authSource=admin'
+// const url = config.get('mongo')
 
-// const url = 'mongodb://127.0.0.1:27017'
+const url = 'mongodb://127.0.0.1:27017'
 // const url = 'mongodb://otcgo:u3fhhrPr@114.215.30.71:27017/?authSource=admin'
 
 const dbName = 'neo-main'
@@ -34,33 +36,30 @@ function main () {
 
     let stream = transactions.find({
       $or: [
-            {'utxo': false},
-            {'utxo': {$exists: false}}
+       {'vin.utxo': {$exists: false}},
+        {'vin.utxo.address': {$exists: false}}
       ]
+
     }).sort({'blockIndex': -1})
     stream.on('data', async (d) => {
-      console.log('d', d.blockIndex)
-      if (d.vin.length > 0) {
-        for (let i = 0; i < d.vin.length; i++) {
-          if (d.vin[i]) {
-            let result = await client.db(dbName).collection('b_neo_m_transactions').findOne({txid: d.vin[i].txid})
+      for (let i = 0; i < d.vin.length; i++) {
+        if (d.vin[i]) {
+          let result = await client.db(dbName).collection('b_neo_m_transactions').findOne({txid: d.vin[i].txid})
             // console.log('result', result)
-            if (result) {
-              d.vin[i].utxo = d.vin[i].vout ? result.vout[d.vin[i].vout] : {}
-            }
+          if (result) {
+            d.vin[i].utxo = d.vin[i].vout ? result.vout[d.vin[i].vout] : {}
           }
-
-         // console.log('d.vin[i].utxo', d.vin[i].utxo)
         }
-        // console.log('d', d.vin)
+         // console.log('d.vin[i].utxo', d.vin[i].utxo)
       }
-     // console.log('d', d.vin)
+        // console.log('d', d.vin)
+
+      console.log('d', d.vin)
       transactions.updateOne({
         '_id': ObjectId(d._id)
       }, {
         $set: {
-          'vin': d.vin || [],
-          'utxo': true
+          'vin': d.vin || []
         }
       })
     })

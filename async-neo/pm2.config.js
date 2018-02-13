@@ -12,6 +12,15 @@ module.exports = {
       },
      // 'instances': 'max',   // 如果是fork, 不用配置
       'exec_mode': 'fork'  // cluster or fork
+    },
+    {
+      name: 'async-main-vin',
+      script: './script/vin.js',
+      env: {   // all environment
+        'NODE_ENV': 'production'
+      },
+     // 'instances': 'max',   // 如果是fork, 不用配置
+      'exec_mode': 'fork'  // cluster or fork
     }
   ]
 }

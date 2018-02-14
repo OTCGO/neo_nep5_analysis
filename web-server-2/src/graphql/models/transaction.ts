@@ -118,7 +118,7 @@ const transaction = new graphql.GraphQLObjectType({
                 name: {
                   type: graphql.GraphQLString,
                   async resolve (info) {
-                    if (info) {
+                    if (info & info.asset) {
                       return config.get(`asserts.${info.asset}`)
                      // console.log('info', info)
                     }

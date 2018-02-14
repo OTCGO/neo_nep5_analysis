@@ -34,10 +34,10 @@ class storage {
       this.dataAccess = new MongodbStorage(this.storage)
 
       // Periodically update the list of assets available
-      this.updateAssetList()
-      setInterval(() => {
-        this.updateAssetList()
-      }, 10000)
+      // this.updateAssetList()
+      // setInterval(() => {
+      //   this.updateAssetList()
+      // }, 10000)
     }
 
     // Get the block count available in storage

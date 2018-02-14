@@ -34,13 +34,7 @@ function main () {
     const db = client.db(dbName)
     const transactions = db.collection('b_neo_m_transactions')
 
-    let stream = transactions.find({
-      $or: [
-       {'vin.utxo': {$exists: false}},
-        {'vin.utxo.address': {$exists: false}}
-      ]
-
-    }).sort({'blockIndex': -1})
+    let stream = transactions.find({'vin.utxo.address': null}).sort({'blockIndex': -1})
     stream.on('data', async (d) => {
       console.log('d', d.blockIndex)
       for (let i = 0; i < d.vin.length; i++) {
@@ -66,8 +60,10 @@ function main () {
     })
     stream.on('end', () => {
       console.log('end')
+      main()
     })
   })
 }
 
-setInterval(main, 30000)
+// setInterval(main, 30000)
+main()

@@ -67,13 +67,19 @@ class node {
       this.storage.getBlockCount()
         .then(() => {
           this.blockWritePointer = this.storage.index
+
+          // this.blockWritePointer = res - 1
           // enqueue blocks for download
           setInterval(() => {
+            console.log('this.blockWritePointer', this.blockWritePointer)
+            console.log('this.mesh.highestNode().index', this.mesh.highestNode().index)
+            console.log('this.queue.length()', this.queue.length())
+            console.log('this.maxQueueLength', this.maxQueueLength)
             while ((this.blockWritePointer < this.mesh.highestNode().index) &&
             (this.queue.length() < this.maxQueueLength)) {
               this.enqueueBlock(this.blockWritePointer + 1)
             }
-          }, 2000)
+          }, 10000)
         })
 
       setInterval(() => {
@@ -87,12 +93,12 @@ class node {
       }, 180000)
 
       // 执行一次
-      setTimeout(() => {
+      setInterval(() => {
         this.storage.verifyTransaction()
           .then((res) => {
             console.log('Transaction verified. end:')
           })
-      }, 10000)
+      }, 1800000)
 
       /*
       setInterval(() => {

@@ -34,29 +34,35 @@ function main () {
     const db = client.db(dbName)
     const transactions = db.collection('b_neo_m_transactions')
 
-    let stream = transactions.find({'vin.utxo.address': null}).sort({'blockIndex': -1})
+    let stream = transactions.find({
+      $and: [
+        {'vin.utxo.address': null}
+      ]
+    }).sort({'blockIndex': -1})
     stream.on('data', async (d) => {
       console.log('d', d.blockIndex)
-      for (let i = 0; i < d.vin.length; i++) {
-        if (d.vin[i]) {
-          let result = await client.db(dbName).collection('b_neo_m_transactions').findOne({txid: d.vin[i].txid})
-            // console.log('result', result)
-          if (result) {
-            d.vin[i].utxo = d.vin[i].vout ? result.vout[d.vin[i].vout] : {}
+      if (d.vin.length > 0) {
+        for (let i = 0; i < d.vin.length; i++) {
+          if (d.vin[i]) {
+            let result = await client.db(dbName).collection('b_neo_m_transactions').findOne({txid: d.vin[i].txid})
+              // console.log('result', result)
+            if (result) {
+              d.vin[i].utxo = d.vin[i].vout ? result.vout[d.vin[i].vout] : {}
+            }
           }
+          // console.log('d.vin[i].utxo', d.vin[i].utxo)
         }
-         // console.log('d.vin[i].utxo', d.vin[i].utxo)
-      }
         // console.log('d', d.vin)
 
       // console.log('d', d.vin)
-      transactions.updateOne({
-        '_id': ObjectId(d._id)
-      }, {
-        $set: {
-          'vin': d.vin || []
-        }
-      })
+        transactions.updateOne({
+          '_id': ObjectId(d._id)
+        }, {
+          $set: {
+            'vin': d.vin || []
+          }
+        })
+      }
     })
     stream.on('end', () => {
       console.log('end')

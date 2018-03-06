@@ -74,8 +74,12 @@ const query = new graphql.GraphQLObjectType({
         search: {
           type: graphql.GraphQLString
         },
+        address: {
+          type: graphql.GraphQLString
+        }
       }),
       async resolve (root, args) {
+        // search
         if (args.search) {
           args.$or = [
             {txid: args.search.substring(0, 2) === '0x' ? args.search : `0x${args.search}`},
@@ -88,6 +92,15 @@ const query = new graphql.GraphQLObjectType({
             {'from.hash': args.search}
           ]
           delete args.search
+        }
+
+        // addresss
+        if (args.addresss) {
+          args.$or = [
+            {'to.value': args.search},
+            {'from.value': args.search},
+          ]
+          delete args.addresss
         }
         return  pageQuery(args.skip, args.limit, Transaction, '', queryBuilder({}, args))
       }

@@ -97,8 +97,8 @@ const query = new graphql.GraphQLObjectType({
         // addresss
         if (args.addresss) {
           args.$or = [
-            {'to.value': args.search},
-            {'from.value': args.search},
+            {'to.value': args.addresss},
+            {'from.value': args.addresss},
           ]
           delete args.addresss
         }

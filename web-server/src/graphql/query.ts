@@ -95,12 +95,12 @@ const query = new graphql.GraphQLObjectType({
         }
 
         // addresss
-        if (args.addresss) {
+        if (args.address) {
           args.$or = [
-            {'to.value': args.addresss},
-            {'from.value': args.addresss},
+            {'to.value': args.address},
+            {'from.value': args.address},
           ]
-          delete args.addresss
+          delete args.address
         }
         return  pageQuery(args.skip, args.limit, Transaction, '', queryBuilder({}, args))
       }

@@ -54,7 +54,7 @@ nep5.get(`/address/balances/:address`,  async (req: NRequest, res: any)  => {
       logger.info('rpc', config.get('rpc'))
       // const result = await api.nep5.getTokenBalance(config.get('rpc'), '0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5', 'ARGpitrDs1rcynXmBd6JRgvEJ8PLSetFiW')
       // logger.info('result', result)
-      const asset: any = await Asset.find()
+      const asset: any = await Asset.find({status: {$exists: false}})
       logger.info('asset', asset)
       const arr = []
       asset.forEach(item => {

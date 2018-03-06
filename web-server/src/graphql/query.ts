@@ -113,7 +113,7 @@ const query = new graphql.GraphQLObjectType({
         },
       }),
       async resolve (root, args) {
-        return  pageQuery(args.skip, args.limit, Asset, '', queryBuilder({}, args))
+        return  pageQuery(args.skip, args.limit, Asset, '', queryBuilder({status: {$exists: false}}, args))
       }
     },
   }

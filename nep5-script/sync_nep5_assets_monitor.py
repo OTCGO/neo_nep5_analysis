@@ -43,12 +43,13 @@ class FileEventHandler(FileSystemEventHandler):
             print 'blockIndex', blockIndex
             data = JSONFileHandler.load(event.src_path)
             nep5 = NEP5Handler(args)
-            if data is not None:
-                for item in data:
-                    # print type(item)
-                    # print item['txid']
-                    item['blockIndex'] = blockIndex
-                    nep5.transfer(item)
+            nep5.handle_data(blockIndex,data)
+            # if data is not None:
+            #     for item in data:
+            #         # print type(item)
+            #         # print item['txid']
+            #         item['blockIndex'] = blockIndex
+            #         nep5.transfer(item)
                     # if item['state']['value'][0]['value'] == transfer:
                     #     nep5.transfer(item)
             # print data
@@ -94,7 +95,7 @@ def get_block_index(filename):
 
 # python sync_nep5_assets_monitor.py -d neo-otc -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
 
-# python sync_nep5_assets_monitor.py - d neo - otc - r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test - m 127.0.0.1: 27017
+# python2.7 sync_nep5_assets_monitor.py -d neo-otc -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
 
 
 if __name__ == "__main__":

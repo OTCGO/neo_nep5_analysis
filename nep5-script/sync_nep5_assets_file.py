@@ -81,14 +81,13 @@ def get_block_index(filename):
 
 # python sync_nep5_assets_file.py  -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -d neo-otcgo -m mongodb://otcgo:u3fhhrPr@114.215.30.71:27017/?authSource=admin&replicaSet=rs1 
 
-# python sync_nep5_assets_file.py -d neo-otc -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
+# python2.7 sync_nep5_assets_file.py -d neo-otc -r /Users/wei/Desktop/otcgo/neo_wallet_analysis/nep5-script/test -m 127.0.0.1:27017
 
 
 if __name__ == "__main__":
 
     try:
         # 定义操作
-        transfer = '7472616e73666572'
         parser = argparse.ArgumentParser()
         parser.add_argument("-m", "--mongodb",
                             help="verify database name, default antshares")
@@ -113,13 +112,23 @@ if __name__ == "__main__":
 
             print 'blockIndex', blockIndex
             data = JSONFileHandler.load(os.path.join(rootdir, listArr[f]))
-            if data is not None:
-                for item in data:
-                    # print type(item)
-                    # print item['txid']
-                    item['blockIndex'] = blockIndex
-                    if item['state']['value'][0]['value'] == transfer:
-                        nep5.transfer(item)
+            nep5.handle_data(blockIndex,data)
+            # if data is not None:
+            #     for item in data:
+            #         # print type(item)
+            #         # print item['txid']
+            #         item['blockIndex'] = blockIndex
+            #         if item['state']['value'][0]['value'] == transfer:
+            #             result = self.db['nep5_m_transactions'].find_one({
+            #                 "txid": item['txid']
+            #             })
+            #             if result is None:
+            #                 for item_m in data:
+            #                     if item_m['txid'] == item['txid']:
+            #                         nep5.transfer(item)
+
+
+                            
 
         print 'success'
 

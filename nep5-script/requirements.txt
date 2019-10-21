@@ -28,7 +28,7 @@ Django==1.11.4
 django-filter==1.0.4
 django-rest-swagger==2.1.2
 djangorestframework==3.6.4
-ecdsa==0.13
+ecdsa==0.13.3
 emoji==0.4.5
 enum34==1.1.6
 ez-setup==0.9

@@ -124,7 +124,7 @@ requests==2.11.0
 runlike==0.4.1
 scandir==1.5
 scipy==0.13.0b1
-Scrapy==1.4.0
+Scrapy==1.8.1
 service-identity==17.0.0
 simplegeneric==0.8.1
 simplejson==3.11.1

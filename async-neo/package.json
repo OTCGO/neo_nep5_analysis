@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@cityofzion/neon-js": "^2.1.1",
-    "async": "~2.5.0",
+    "async": "~3.2.2",
     "axios": "^0.16.2",
     "config": "^1.29.2",
     "lodash": "~4.17.4",
